@@ -1,0 +1,75 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<!-- end page title -->
+        {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+<div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Edit Bonus Add</h4></u>
+             </div>
+        </div>
+</div>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-2">
+
+                </div>
+                <div class="col-lg-6 col-md-8 login-box">
+                    <div class="col-lg-12 login-title">
+
+                    </div>
+                    <div class="col-lg-12 login-form">
+                        <div class="col-lg-12 login-form">
+                            <form action="{% url 'Edit_Bonus' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {%for details in data %}
+                                <div class="form-group">
+                                <input type="text" class="form-control" value="{{details.EMP_CODE}}" name="emp_code" hidden>
+                                </div>
+                                <div class="form-group">
+                                <label class="form-control-label">Bonus Name</label>
+                                <input type="text" class="form-control" value="{{details.BONUS_NAME}}" name="bonus_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Select of Month</label>
+                                    <div class="position-relative" id="datepicker4">
+                                    <input type="text" class="form-control" data-date-container='#datepicker4'  autocomplete="off" data-provide="datepicker"
+                                    data-date-format="MM-yyyy" data-date-min-view-mode="1" data-date-autoclose="true" name="date_month"   value="{{details.BONUS_UPDATE_DATE}}" required>
+                               </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Bonus Amount</label>
+                                    <input type="text" class="form-control" name="bonus_amount" value="{{details.BONUS_AMOUNT}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Bonus Description</label>
+                                    <textarea  type="text" class="form-control" name="bonus_description" >{{details.BONUS_DESCRIPTION}}</textarea>
+                                </div>
+                                <br>
+                                <div class="form-group float-end">
+                                        <button class="btn btn-primary account-btn" type="submit" name="submit" >UPDATE</button>
+                                </div>
+                            </form>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2">
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

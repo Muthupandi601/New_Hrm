@@ -1,0 +1,282 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">Employee Salary Details</h4>
+            </div>
+        </div>
+    </div>
+     {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+    <!-- end page title -->
+      {% if 'UPDATE_EMP_SALARY_DETAILS' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.UPDATE_EMP_SALARY_DETAILS }}
+
+             </div>
+        {% endif %}
+
+        {% block update_messages %}
+             {% if update_messages %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ update_messages }}
+                </div>
+             {% endif %}
+        {% endblock %}
+
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+                 <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-check-label">Search Employee:</label>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="search_type" id="inlineRadio1" value="emp_no" required>
+                            <label class="form-check-label" for="inlineRadio1">Emp Code.</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="search_type" id="inlineRadio2" value="emp_name" required>
+                            <label class="form-check-label" for="inlineRadio2">Employee Name.</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                           <input type="text" class="form-control" id="inlineFormInputGroupUsername" name ="emp_code" placeholder="Enter Emp Code" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-md" name="GetData" value="GetData">GetData</button>
+                    </div>
+                </form>
+                 {% for details in data %}
+                <form method="POST" >
+                    {% csrf_token %}
+                    <div class="row row-cols-lg-auto g-3 align-items-center" id="edit_emp_salry">
+                        <input  type="text" name="emp_hidden_code" value="{{emp_id}}" hidden>
+                        <div  class="mb-3 col-lg-4">
+                            <label>FIXED SALARY</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="number"   value="{{details.FIXED_SALARY}}" name="fix_sal" id="sal_value" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>Year&Month</label><code>*</code>
+                            <div class="col-md-10">
+                                <div class="position-relative" id="datepicker4">
+                                    <input type="text" class="form-control" data-date-container='#datepicker4'  autocomplete="off" data-provide="datepicker"
+                                                 data-date-format="M-yyyy" data-date-min-view-mode="1" data-date-autoclose="true" name="date_month" value="{{details.SALARY_UPDATE_DATE}}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>DEARNESS ALLOWANCES</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.DEARANCE_ALLOWANCES}}" name="dea_all" oninput=myChangeFunction(this) id="da_value"   autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>BASIC</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.BASIC}}" name="basic" id="basic_value"  oninput=myChangeFunction(this)  autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>SPECIAL ALLOWANCES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" id="" value="{{details.SPECIAL_ALLOWANCES}}" name="spa" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>HOUSE RENT ALLOWANCES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.HOUSE_RENT_ALLOWANCES}}" id="house_value" oninput=myChangeFunction(this) name="hra" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>CONVEYANCE/TA</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.CONVEYANCE}}" name="con" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>OTHER ALLOWANCES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.OTHER_ALLOWANCES}}" name="ota" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>OT PER-HRS PAY</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.OVERTIME_AMOUNT}}" name="ot" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>SITE ALLOWANCES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.SITE_ALLOWANCES}}" name="sta" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>EXTRA SHIFT PER-HRS PAY</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.SHIFT_ALLOWANCES_AMOUNT}}" name="e_sf_pay" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>INCENTIVE</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.INCENTIVE}}" name="inc" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>LEAVE TRAVEL ALLOWANCES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.LEAVE_TRAVEL_ALLOWANCES}}" name="lta" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>MEDICAL ALLOWANCES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.MEDICAL_ALLOWANCES}}" name="med_a" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>CHILD EDUCATIONS ALLOWANCES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.CHILD_EDUCATIONS_ALLOWANCES}}" name="cea" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>ATTENDANCE BONUS</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.ATTENDANCE_BONUS}}" name="att_bo" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>ATTENDANCE INCENTIVE</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.ATTENDANCE_INCENTIVE}}" name="att_in" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>OTHER INCENTIVE</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.EXTRA_BOUNS}}" name="extra_bo" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>MONTHLY LEAVE WAGES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.MONTHLY_LEAVE_WAGES}}" name="mon_le_wa" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>RELIVER DUTY WAGES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.RELIVER_DUTY_WAGES}}" name="re_du_wa" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>ARREARS WAGES</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.ARREARS_WAGES}}" name="arr_wa" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>PROVIDENT FUND</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.PROVIDENT_FUND}}" name="pro_fund" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <!--<div  class="mb-3 col-lg-4">
+                            <label>PROFESSIONAL TAX</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"  value="{{details.PROFESSIONAL_TAX}}" name="pro_tax" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>LABOUR WELFARE FUND</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.LABOUR_WELFARE_FUND}}" name="la_we_fu" autocomplete="off">
+                            </div>
+                        </div>-->
+                        <div  class="mb-3 col-lg-4">
+                            <label>INCOME TAX</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.INCOME_TAX}}" name="income_tax" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>LOAN</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.LOAN}}" name="loan" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>SALARY ADVANCE</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.SALARY_ADVANCE}}" name="salary_adv" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>OTHER DEDUCTIONS</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.OTHER_DEDUCTION}}" name="other_dec" autocomplete="off">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label>UNIFORM DEDUCTIONS</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text"   value="{{details.UNIFORM_DEDUCTION}}" name="uni_dec" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <center>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary w-md" name="GetData" value="UPDATE">UPDATE</button>
+                        </div>
+                    </center>
+                </form>
+            {%endfor%}
+            </div>
+        </div>
+     </div>
+<script>
+         function myChangeFunction(input1) {
+           var basic_value =0;
+           var da_value =0;
+           var house_value =0;
+           var basic_input = document.getElementById('basic_value');
+           var da_input = document.getElementById('da_value');
+           var house_input= document.getElementById('house_value');
+           if(basic_input && basic_input.value)
+           {
+               basic_value=parseInt(basic_input.value);
+           }
+           if(da_input && da_input.value)
+           {
+               da_value=parseInt(da_input.value);
+           }
+           if(house_input && house_input.value)
+           {
+               house_value=parseInt(house_input.value);
+           }
+           var total =basic_value+da_value+house_value;
+           document.getElementById('sal_value').value=total;
+         }
+     </script>
+{% endblock %}

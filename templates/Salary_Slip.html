@@ -1,0 +1,117 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">EMPLOYEE SALARY SLIP VIEW</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+       {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form  method="POST" >
+                    {% csrf_token %}
+                 <div class="row row-cols-lg-auto g-3 align-items-center">
+                     <div  class="mb-0 col-lg-4">
+                        <label>Year&Month</label><code>*</code>
+                        <div class="col-md-10">
+                            <div class="position-relative" id="datepicker4">
+                                <input type="text" class="form-control" data-date-container='#datepicker4'  autocomplete="off" data-provide="datepicker"
+                                data-date-format="MM-yyyy" data-date-min-view-mode="1" data-date-autoclose="true" name="date_month" value="" required>
+                           </div>
+                        </div>
+                     </div>
+                     <div  class="mb-0 col-lg-4">
+                        <label>Client</label><code>*</code>
+                        <div class="col-md-10">
+                           <select class="form-control select2" name ="client" id="selectclient" required  autocomplete="off">
+                             <option></option>
+                             {% for item in client %}
+                                 <option val="{{ item.Client_Name }}" > {{ item.Client_Name }} </option>
+                             {% endfor %}
+                           </select>
+                        </div>
+                     </div>
+                     <div  class="mb-0 col-lg-4">
+                        <label >Unit</label><code>*</code>
+                        <div class="col-md-10">
+                            <select class="form-control select2" name ="unit" required   id="selectunit" autocomplete="off" required>
+                              <option></option>
+                            </select>
+                        </div>
+                     </div>
+                 </div>
+                <br>
+                 <br>
+                <hr>
+                    <center>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-danger w-md" name="GetData" value="GetData">GetData</button>
+                    </div>
+                    </center>
+                </form>
+
+
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+    {% if em_mon_report %}
+        <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Employee List</h2>
+                    <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead>
+                        <tr>
+                            <th>S.NO</th>
+                            <th>TOKEN NO</th>
+                            <th>EMP-NAME</th>
+                            <th>EMP-CODE</th>
+                            <th>FATHER NAME</th>
+                            <th>VIEW</th>
+
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                        {%for details in em_mon_report %}
+                        <tr>
+                            <td>{{details.id }}</td>
+                            <td>{{details.token_no }}</td>
+                            <td>{{details.emp_name }}</td>
+                            <td>{{details.emp_code }}</td>
+                            <td>{{details.father_name }}</td>
+                           <td><a href="{% url 'salary_slip_invoice' %}?secure={{details.print }}" target="_blank" title="CLICK TO PRINT SALARY SLIP"><i class="fas fa-pencil-alt"></i>VIEW</a></td>
+
+                        </tr>
+                        {%endfor%}
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+    {% endif %}
+    <!-- end row -->
+
+{% endblock %}

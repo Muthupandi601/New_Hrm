@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="http://yourjavascript.com/7174319415/script.js"></script>
+        <script>$(document).ready(function(){
+                 $('select#selectcountries').change(function () {
+                     var optionSelected = $(this).find("option:selected");
+                     var valueSelected  = optionSelected.val();
+                     var country_name   = optionSelected.text();
+
+
+                     data = {'cnt' : country_name };
+
+                     $.ajax({
+                         type:"GET",
+                         url:'/getCity',
+                         // data:JSON.stringify(data),
+                         data:data,
+                         success:function(result){
+
+                            $("#selectcities option").remove();
+                            for (var i = result.length - 1; i >= 0; i--) {
+                                console.log("vfsdghg"+ result[i]);
+                                $("#selectcities").append('<option>'+ result[i].name +'</option>');
+
+                            };
+                          },
+                    });
+                });
+
+                $('select#selectcities').change(function () {
+                     var optionSelected = $(this).find("option:selected");
+                     var valueSelected  = optionSelected.val();
+                     var city_name   = optionSelected.text();
+
+
+                     data = {'ct' : city_name };
+
+                     $.ajax({
+                         type:"GET",
+                         url:'/getRoads',
+                         // data:JSON.stringify(data),
+                         data:data,
+                         success:function(result){
+                            console.log(result);
+                            $("#selectroads option").remove();
+                            for (var i = result.length - 1; i >= 0; i--) {
+                                $("#selectroads").append('<option>'+ result[i].name +'</option>');
+                            };
+                          },
+                    });
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+        <select name="selectcountries" id="selectcountries">
+         <option > select contry name</option>
+            {% for item in countries %}
+
+            <option val="{{ item.Country_Name }}"> {{ item.Country_Name }} </option>
+            {% endfor %}
+
+        </select>
+        <select name ="selectcities" id="selectcities"></select>
+        <select name ="selectroads" id="selectroads"></select>
+    </body>
+</html>

@@ -1,0 +1,407 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+<style>
+    .modalDialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    opacity:0;
+    -webkit-transition: opacity 100ms ease-in;
+    -moz-transition: opacity 100ms ease-in;
+    transition: opacity 100ms ease-in;
+    pointer-events: none;
+}
+.modalDialog:target {
+    opacity:1;
+    pointer-events: auto;
+}
+.modalDialog > div {
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 3px;
+    background: #fff;
+}
+.close {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f26d7d;
+    color: #fff;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 34px;
+    height: 34px;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+    padding-top: 5px;
+   -webkit-transition: -webkit-transform 1s ease-out;
+   transition: transform 1s ease-out;
+   transform-origin: center;
+   transform-style: preserve-3D;
+   ease-out;
+   transition: transform 1s ease-out;
+   transform-origin: center;
+   transform-style: preserve-3D;
+}
+.close:hover {
+   -webkit-transform: rotate(360deg);
+   transform: rotate(360deg);
+ }
+</style>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">FORM-B FORMAT OF EMPLOYEE REGISTER </h4></u>
+            </div>
+        </div>
+    </div>
+
+     {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+    <!-- end page title -->
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <h4  class="card-title mb-4">Search Client Wise:</h4>
+                 <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="{% url 'Form_B' %}" >
+                    {% csrf_token %}
+                     <div  class="mb-3 col-lg-4">
+                        <label>Client</label><code>*</code>
+                        <select class="form-control select2" name ="client"  required>
+                               <option></option>
+                                 {% for item in client %}
+                                     <option value="{{ item }}" {% if item == form.client %}selected="selected"{% endif %}> {{ item}} </option>
+                                 {% endfor %}
+                        </select>
+                    </div>
+                    <!--<div  class="mb-3 col-lg-4">
+                        <label>Unit</label><code>*</code>
+                        <select class="form-control select2" name ="unit" id="selectcountries" required>
+                            <option></option>
+
+                        </select>
+                    </div>-->
+                   <div  class="mb-3 col-lg-4">
+                        <label>Year & Month</label><code>*</code>
+                            <div class="position-relative" id="datepicker4">
+                                <input type="text" class="form-control" data-date-container='#datepicker4'  autocomplete="off" data-provide="datepicker"
+                                data-date-format="M-yyyy" data-date-min-view-mode="1" data-date-autoclose="true" name="date_month" value="" required>
+                           </div>
+                     </div>
+                    <div class="mb-3 col-lg-4" >
+                        <br>
+                        <button type="submit" class="btn btn-primary" name="submit" value="Client">Get List</button>
+                    </div>
+                </form>
+                <div id="filter_wise" class="modalDialog">
+                    <div>
+                        {% block form_a_filter %}
+                        {% if form_a_filter %}
+                        <a href="{% url 'Filter_Form_B' %}?client={{form_a_filter}}" title="Close" class="close">X</a>
+                        {% else %}
+                        <a href="{% url 'Form_B' %}?client={{dummy_value}}" title="Close" class="close">X</a>
+                        {% endif %}
+                        {% endblock %}
+
+                        <center>
+                            <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f;text-align: center;">Choose Filter Wise</h4></u><br>
+                        </center>
+                        <form action="{% url 'Filter_Form_B' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="text"  class="form-control" id="selectclient" value="{{client_name}}" name="client_name" hidden>
+                            <input type="text"  class="form-control"  value="{{date_month}}" name="date_month" hidden >
+                            <div class="row">
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Country()" >Country</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="State()" >State</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="District()">District</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Branch()">Branch</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Area()">Area</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Unit()">Unit</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <center>
+                                <div class="col-md-6" id="country" style="display:none">
+                                    <select class="form-control " name ="country_name"  id="selectcountries1"  autocomplete="off" required>
+                                        <option value="" selected disabled>Select Country</option>
+                                        {%for details in country_list %}
+                                        <option value="{{ details}}" > {{ details}} </option>
+                                        {%endfor%}
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="State" style="display:none">
+                                    <select class="form-control " name ="state_name" id="selectstate"  autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="district" style="display:none">
+                                    <select class="form-control " name ="district_name"  id="selectcity" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="branch" style="display:none">
+                                    <select class="form-control " name ="branch_name" id="selectbranch" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="area" style="display:none">
+                                    <select class="form-control " name ="area_name" id="selectarea" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="unit" style="display:none">
+                                    <select class="form-control " name ="unit_name" id="selectunit" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div align="right" class="col-md-6" id="save" style="display:none">
+                                    <button class="btn btn-primary account-btn" type="submit" id="filter" name="submit" value="save" >GetList</button>
+                                </div>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            <!--<a href="{% url 'export_data' %}">Export Data</a>-->
+           <!-- <a href="{% url 'export_users_xls' %}">Export all users</a>-->
+                <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
+                {% block filter_value %}
+                {% ifequal filter_value 'yes' %}
+                <p align="right">
+                    <a href="#filter_wise">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
+                    </a>
+                </p>
+                {% endifequal %}
+                {% endblock %}
+                <hr>
+                    <b>
+                     <center>
+
+                         <caption>FORM B</caption> <br>
+                         <caption>FORMAT OF WAGE REGISTER</caption> <br>
+                         <caption>[Part-A: For all Establishments]</caption> <br>
+                     </center>
+                    </b>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+                   <thead>
+                    <tr>
+                        <th>Si.No</th>
+                        <th>Name</th>
+                        <th>Rate of Wages</th>
+                        <th>No. of Days worked</th>
+                        <th>Overtime hours worked</th>
+                        <th>Basic</th>
+                        <th>Special Basic</th>
+                        <th>DA</th>
+                        <th>Payments overtime</th>
+                        <th>HRA</th>
+                        <th>*Others</th>
+                        <th>Total</th>
+                        <th>PF</th>
+                        <th>ESIC</th>
+                        <th>Society</th>
+                        <th>Income Tax</th>
+                        <th>Insurance</th>
+                        <th>Others</th>
+                        <th>Recoveries</th>
+                        <th>Total</th>
+                        <th>Net Payment</th>
+                        <th>Employer Share PF Welfare Fund</th>
+                        <th>Receipt by Employee/Bank Transaction ID</th>
+                        <th>Date of Payment</th>
+                        <th>Remarks</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    {%for details in data %}
+
+                    <tr>
+                       <td>{{ details.Si_No }}</td>
+                        <td>{{ details.Name }}</td>
+                        <td>{{ details.Rate_of_Wages }}</td>
+                        <td>{{ details.No_of_Days_worked }}</td>
+                        <td>{{ details.Overtime_hours_worked }}</td>
+                        <td>{{ details.BASIC }}</td>
+                        <td>{{ details.Special_Basic }}</td>
+                        <td>{{ details.DA }}</td>
+                        <td>{{ details.Payments_overtime }}</td>
+                        <td>{{ details.HRA }}</td>
+                        <td>{{ details.Earn_Others }}</td>
+                        <td>{{ details.Earn_Total }}</td>
+                        <td>{{ details.PF }}</td>
+                        <td>{{ details.ESIC }}</td>
+                        <td>{{ details.Society }}</td>
+                        <td>{{ details.Income_Tax }}</td>
+                        <td>{{ details.Insurance }}</td>
+                        <td>{{ details.Ded_Others }}</td>
+                        <td>{{ details.Recoveries }}</td>
+                        <td>{{ details.Ded_Total }}</td>
+                        <td>{{ details.Net_Payment }}</td>
+                        <td>{{ details.Welfare_Fund }}</td>
+                        <td>{{ details.Transaction_Id }}</td>
+                        <td>{{ details.Date_of_Payment }}</td>
+                        <td>{{ details.Remarks }}</td>
+
+
+
+                   </tr>
+
+                    {%endfor%}
+                   </tbody>
+                </table>
+
+                    </div>
+                </div>
+               <!-- end card body -->
+
+        <!-- end card -->
+     </div>
+    </div>
+    </div>
+<script>
+function Country()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "none";
+  document.getElementById("district").style.display = "none";
+  document.getElementById("branch").style.display = "none";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Country";
+  document.getElementById("selectstate").required = false;
+  document.getElementById("selectcity").required = false;
+  document.getElementById("selectbranch").required = false;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+ function State()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "none";
+  document.getElementById("branch").style.display = "none";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "State";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = false;
+  document.getElementById("selectbranch").required = false;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+ function District()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "none";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "District";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = false;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+function Branch()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "block";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Branch";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = true;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+function Area()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "block";
+  document.getElementById("area").style.display = "block";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Area";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = true;
+  document.getElementById("selectarea").required = true;
+  document.getElementById("selectunit").required = false;
+}
+function Unit()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "block";
+  document.getElementById("area").style.display = "block";
+  document.getElementById("unit").style.display = "block";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Unit";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = true;
+  document.getElementById("selectarea").required = true;
+  document.getElementById("selectunit").required = true;
+}
+</script>
+<!--<script>
+    document.title ='sample';
+</script>-->
+{% endblock %}

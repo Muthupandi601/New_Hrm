@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+
+    {% include "include/css.html" %}
+
+   <style >
+     .zoom {
+          zoom: 0.9; /* all browsers */
+         -moz-transform: scale(0.9); /* Firefox */
+      }
+</style>
+    <body data-topbar="light" data-layout="horizontal" data-layout-size="boxed" data-layout-scrollable="false" style="background-color:#f0f0fa;"  class="zoom">
+
+                    <div class="container-fluid">
+                    {% block content %}
+                        replace me
+                    {% endblock %}
+                    </div> <!-- container-fluid -->
+
+        {% include  "include/script.html" %}
+    </body>
+</html>

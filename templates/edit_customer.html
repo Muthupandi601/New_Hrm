@@ -1,0 +1,75 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+                <form action="{% url 'Edit_Customer_Reg' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+					                {%for details in data %}
+									<div class="row">
+                                        <input  type="text" name="client_hidden_code" value="{{client_id}}" hidden>
+										<div  class="mb-0 col-lg-4">
+                                            <label>Client Name</label><code>*</code>
+                                              <input type="text" class="form-control" value="{{ details.CLIENT_NAME }}" name ="client_name" placeholder="Enter Name.." required  autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control" value="{{details.EMAIL }}" name ="client_email" placeholder="Enter email address.."   autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-3 col-lg-4">
+                                            <label>Date Of Birth</label>
+                                            <div class="input-group" id="datepicker1">
+                                                <input type="text" class="form-control" value="{{details.DOB }}" placeholder="yyyy-mm-dd"
+                                                                    data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" name="doj" >
+
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div><!-- input-group -->
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Contact No</label><code>*</code>
+                                            <input type="tel" class="form-control" value="{{details.CONTACT_NO }}" name ="client_ph" placeholder="Enter contact no.."   autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Web</label>
+                                            <input type="text" class="form-control" value="{{details.WEB }}" name ="web" placeholder="Enter Web.."   autocomplete="off" />
+                                        </div>
+                                        <div  class="mb-3 col-lg-4">
+                                            <label>Gender</label><code>*</code>
+                                            <select class="form-control" name="gender" >
+                                                <optgroup label="Alaskan/Hawaiian Time Zone">
+                                                    <option value="male">Male</option>
+                                                    <option value="female  ">Female  </option>
+                                                    <option value="transgender ">Transgender </option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Emergency Contact No((Optional)</label>
+                                            <input type="tel" class="form-control" value="{{details.EMERGENCY_CONTACT_NO }}" name ="emg_ph" placeholder="Enter contact no.."   autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Address</label><code>*</code>
+                                            <input type="text" class="form-control" value="{{details.ADDRESS }}" name ="address" placeholder="Enter address.."   autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Client Type</label><code>*</code>
+                                            <input type="text" class="form-control" value="{{details.CLIENT_TYPE }}" name ="client_type" placeholder="Enter Client type.."   autocomplete="off"/>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div style="overflow:auto;">
+                            <div style="float:right;">
+                              <button type="submit" id="prevBtn" class="btn btn-primary waves-effect waves-light " >Submit</button>
+                            </div>
+                        </div>
+                    {%endfor%}
+                </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

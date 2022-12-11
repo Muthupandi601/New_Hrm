@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Search For Students</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+  <style type="text/css">
+    .navbar .megamenu {
+      padding: 1rem;
+      text-decoration: none;
+    }
+
+    .megamenu a {
+      text-decoration: none;
+    }
+
+    /* ============ desktop view ============ */
+    @media all and (min-width: 992px) {
+
+      .navbar .has-megamenu {
+        position: static !important;
+      }
+
+      .navbar .megamenu {
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin-top: 0;
+      }
+
+    }
+
+    /* ============ desktop view .end// ============ */
+
+
+    /* ============ mobile view ============ */
+    @media(max-width: 991px) {
+
+      .navbar.fixed-top .navbar-collapse,
+      .navbar.sticky-top .navbar-collapse {
+        overflow-y: auto;
+        max-height: 90vh;
+        margin-top: 10px;
+      }
+    }
+
+    /* ============ mobile view .end// ============ */
+  </style>
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+      /////// Prevent closing from click inside dropdown
+      document.querySelectorAll('.dropdown-menu').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+      })
+    });
+            // DOMContentLoaded  end
+  </script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-left:25px;padding-right:25px">
+    <a class="navbar-brand" href="adminpanel">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="student_registeration">Registeration</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="search_students">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="fees_collection">Fees Collection</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+
+        <!-- <li class="nav-item dropdown has-megamenu">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Mega menu </a>
+          <div class="dropdown-menu megamenu" role="menu">
+            <div class="row g-3">
+              <div class="col-lg-3 col-6">
+                <div class="col-megamenu">
+                  <h6 class="title">Title Menu One</h6>
+                  <ul class="list-unstyled">
+                    <li><a href="#">Custom Menu</a></li>
+                    <li><a href="#">Custom Menu</a></li>
+                    <li><a href="#">Custom Menu</a></li>
+                    <li><a href="#">Custom Menu</a></li>
+                    <li><a href="#">Custom Menu</a></li>
+                    <li><a href="#">Custom Menu</a></li>
+                  </ul>
+                </div> 
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="col-megamenu">
+        <h6 class="title">Title Menu Two</h6>
+        <ul class="list-unstyled">
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+        </ul>
+      </div> 
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="col-megamenu">
+        <h6 class="title">Title Menu Three</h6>
+        <ul class="list-unstyled">
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+        </ul>
+      </div> 
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="col-megamenu">
+        <h6 class="title">Title Menu Four</h6>
+        <ul class="list-unstyled">
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+          <li><a href="#">Custom Menu</a></li>
+        </ul>
+      </div> 
+    </div>
+    </div>
+    </div> 
+    </li> -->
+
+        <li class="nav-item">
+          <a class="nav-link" href="logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div style="padding:20px;">
+    <div class="row">
+      <div class="col-md-3"
+        style="padding:20px; margin-right:10px; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+        <form method="post" action="search_students">{% csrf_token%}
+
+
+          <div class="mb-3">
+            <label for="admno_for_search" class="form-label">Admno</label>
+            <input type="text" class="form-control" id="admno_for_search" name="admno_for_search">
+          </div>
+
+
+
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+
+      <div class="col-md-3"
+        style="padding:20px; margin-bottom:20px; margin-right:10px; border:1px solid lightgrey; border-radius:5px;">
+        <form method="post" action="search_students">{% csrf_token%}
+
+
+          <div class="mb-3">
+            <label for="name_for_search" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name_for_search" name="name_for_search">
+          </div>
+
+
+
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+
+      <div class="col-md-5" style="padding:20px; margin-bottom:20px; border:1px solid lightgrey; border-radius:5px;">
+
+        <form method="post" action="search_students">{% csrf_token%}
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="class_for_search" class="form-label">Class</label>
+                <select name="class_for_search" id="class_for_search" class="form-control">
+                  <option value="KG">KG</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="1">5</option>
+                  <option value="2">6</option>
+                  <option value="3">7</option>
+                  <option value="4">8</option>
+                  <option value="1">9</option>
+                  <option value="2">10</option>
+                  <option value="3">11</option>
+                  <option value="4">12</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="section_for_search" class="form-label">Section</label>
+                <select name="section_for_search" id="section_for_search" class="form-control">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 20px;">
+      {%if admno_searched or class_searched or section_searched or name_searched %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Admno</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Class</th>
+            <th scope="col">Section</th>
+            <th scope="col">Roll</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Category</th>
+            <th scope="col">Religion</th>
+            <th scope="col">Caste</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Fees</th>
+            <!-- <th scope="col">Father Name</th>
+                    <th scope="col">Father Phone</th>
+                    <th scope="col">Mother Name</th>
+                    <th scope="col">Mother Phone</th> -->
+            <!-- <th scope="col">Father Occupation</th>
+                    <th scope="col">Mother Occupation</th>
+                    <th scope="col">Guardian Name</th>
+                    <th scope="col">Guardian Phone</th>
+                    <th scope="col">Guardian Email</th>
+                    <th scope="col">Guardian Relation</th>
+                    <th scope="col">Guardian Occupation</th>
+                    <th scope="col">Guardian Addresses</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {%for student in students%}
+          <form action="fees_collection" method="post">{% csrf_token%}
+            <input type="hidden" name="admno" id="admno" value="{{student.admno}}"></input>
+            <tr>
+              <th scope="row">{{ student.admno}}</th>
+              <td>{{student.fname}}</td>
+              <td>{{student.lname}}</td>
+              <td>{{student.class_student}}</td>
+              <td>{{student.section}}</td>
+              <td>{{student.roll}}</td>
+              <td>{{student.gender}}</td>
+              <td>{{student.category}}</td>
+              <td>{{student.religion}}</td>
+              <td>{{student.caste}}</td>
+              <td>{{student.phno}}</td>
+              <td>{{student.email}}</td>
+              <td><button class="btn btn-secondary" type="submit">Collect $</button></td>
+              <!-- <td>{{student.fathername}}</td>
+                        <td>{{student.fatherphone}}</td>
+                        <td>{{student.mothername}}</td>
+                        <td>{{student.motherphone}}</td> -->
+              <!-- <td>{{student.caste}}</td> -->
+            </tr>
+          </form>
+          {%endfor%}
+        </tbody>
+      </table>
+
+
+
+
+
+      <!-- {{student.section}} -->
+      <br />
+
+      {%else%}
+      <h1>No Search</h1>
+      {%endif%}
+    </div>
+    {%if students_all%}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Admno</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Class</th>
+          <th scope="col">Section</th>
+          <th scope="col">Roll</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Category</th>
+          <th scope="col">Religion</th>
+          <th scope="col">Caste</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Email</th>
+          <th scope="col">Fees</th>
+          <!-- <th scope="col">Father Name</th>
+                <th scope="col">Father Phone</th>
+                <th scope="col">Mother Name</th>
+                <th scope="col">Mother Phone</th> -->
+          <!-- <th scope="col">Father Occupation</th>
+                <th scope="col">Mother Occupation</th>
+                <th scope="col">Guardian Name</th>
+                <th scope="col">Guardian Phone</th>
+                <th scope="col">Guardian Email</th>
+                <th scope="col">Guardian Relation</th>
+                <th scope="col">Guardian Occupation</th>
+                <th scope="col">Guardian Addresses</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        {%for student in students_all%}
+        <form action="fees_collection" method="post">{% csrf_token%}
+          <input type="hidden" name="admno" id="admno" value="{{student.admno}}"></input>
+          <tr>
+            <th scope="row">{{ student.admno}}</th>
+            <td>{{student.fname}}</td>
+            <td>{{student.lname}}</td>
+            <td>{{student.class_student}}</td>
+            <td>{{student.section}}</td>
+            <td>{{student.roll}}</td>
+            <td>{{student.gender}}</td>
+            <td>{{student.category}}</td>
+            <td>{{student.religion}}</td>
+            <td>{{student.caste}}</td>
+            <td>{{student.phno}}</td>
+            <td>{{student.email}}</td>
+            <td><button class="btn btn-secondary" type="submit">Collect $</button></td>
+            <!-- <td>{{student.fathername}}</td>
+                    <td>{{student.fatherphone}}</td>
+                    <td>{{student.mothername}}</td>
+                    <td>{{student.motherphone}}</td> -->
+            <!-- <td>{{student.caste}}</td> -->
+          </tr>
+        </form>
+        {%endfor%}
+
+      </tbody>
+    </table>
+    {%else%}
+    <alert>Error Loading Student Data, Try Again Later.</alert>
+    {%endif%}
+  </div>
+
+</body>
+
+</html>

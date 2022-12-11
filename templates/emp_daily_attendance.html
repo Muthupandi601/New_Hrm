@@ -1,0 +1,122 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+{% load static %}
+
+<style>
+@media print {
+   td:last-child {
+
+    color: black;
+
+  }
+}
+    #see{
+    float: right;
+}
+#see1{
+    float: left;
+}
+#see2{
+    float: right;
+}
+#see3{
+    float: left;
+}
+</style>
+<div class="row">
+    <center><h4 style="color: red">{{emp_name}} {{month_att}} Attendance Statement</h4></center>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="box-header with-border">
+                    </div>
+									<!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="invoice-title" style="background-color: #b2adaf">
+                            <div class="mb-4">
+                                <img src="{% static 'assets/images/logo-dark.png' %}" alt="" height="25">
+                            </div>
+                            <center>
+                                <h4  style="text-transform:capitalize;">Valiance Technology</h4>
+                                          No 57A, 19th st, Secretariat Colony, Vinayakapuram, Lakshmipuram, Chennai, Tamil Nadu 600099
+                            </center>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <address>
+                                    <b><h5>CODE  : {{emp_code}}</h5></b>
+                                </address>
+                            </div>
+                             <div class="col-sm-6 text-sm-end">
+                                 <address class="mt-2 mt-sm-0">
+                                     <b><h5>Designation :{{emp_design}}</h5></b>
+                                 </address>
+                             </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table  class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+                                <thead>
+                                <tr class="text-dark">
+                                    <th>SL#</th>
+                                    <th>IN TIME</th>
+                                    <th>OUT TIME</th>
+                                    <th>LEAVE CATEGORY</th>
+                                    <th>ATTENDANCE DATE</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                 {% ifequal data 'data_is_empty' %}
+                                 <tr>
+                                    <td colspan="6"><center><h3>No data available in table</h3></center></td>
+                                </tr>
+
+                                  {% else %}
+                                     {%for details in data %}
+                                    <tr>
+                                        <td>{{details.id }}</td>
+                                        <td>{{details.IN_TIME }}</td>
+                                        <td>{{details.OUT_TIME }}</td>
+                                        <td>{{details.LEAVE_CATEGORY }}</td>
+                                        <td><a href="{% url 'Edit_Daily_Attendance' %}?secure={{details.edit}}" title="CLICK TO EDIT DAILY ATTENDANCE">{{details.ATTENDANCE_DATE }}</a></td>
+                                        {%endfor%}
+                                </tr>
+
+                                 {% endifequal %}
+
+                                </tbody>
+                            </table>
+                            <div class="Bottom_txt_statement text-center my-3">
+                                <h4 class="mb-0">This is Attendance Statement for only one month</h4>
+                            </div>
+                            <div>
+                                <h4>TOTAL PRESENT :{{present}}</h4>
+                                <h4>TOTAL ABSENT &nbsp;:{{absent}}</h4>
+                                <h4>TOTAL LEAVE &nbsp;:{{leave}}</h4>
+                            </div>
+                            <br>
+                            <div>
+                                <hr id="see1" style="border-top: 3px dashed; width:200px">
+                                <hr id="see" style="border-top: 3px dashed; width:210px">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 id="see2">AUTHORIZE SIGNATURE</h4>
+                        <h4 id="see3">EMPLOYEE SIGNATURE</h4>
+                    </div>
+                    <div class="d-print-none">
+                        <div class="float-end">
+                            <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1" ><i class="fa fa-print"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end card body -->
+</div>
+        <!-- end card -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<!-- end page title -->
+        {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+<div class="row">
+
+</div>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-2">
+                </div>
+                <div class="col-lg-6 col-md-8 login-box">
+                    <div class="col-lg-12">
+                        <div class="col-lg-12">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Add Leave Category</h4></u>
+                                </div>
+                            </div>
+                            <form action="{% url 'Add_Leave_Category' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                <label class="form-control-label">Category Name  </label>
+                                    <input type="text" class="form-control" placeholder="Leave Category Name..." name="leave_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Publication Status</label>
+                                    <select class="form-control select2" name ="status" id="selectcountries" required  autocomplete="off">
+                                        <option value="Published">Published</option>
+                                        <option value="Unpublished">Unpublished</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                <label class="form-control-label">Category Description </label>
+                                    <textarea type="text" class="form-control" placeholder="Enter Category Description..." name="category_description" required></textarea>
+                                </div>
+                                <br>
+                                <div class="form-group float-end">
+                                    <button class="btn btn-primary account-btn" type="submit" name="submit">Add Category</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2">
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

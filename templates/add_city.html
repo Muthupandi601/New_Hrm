@@ -1,0 +1,77 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Add City</h4></u>
+             </div>
+        </div>
+</div>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-2">
+
+                </div>
+                <div class="col-lg-6 col-md-8 login-box">
+                    <div class="col-lg-12 login-title">
+
+                    </div>
+                    <div class="col-lg-12 ">
+                        <div class="col-lg-12 ">
+                            <form action="{% url 'Add_Notice' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label class="form-control-label">Select Country</label>
+                                    {% ifequal country  'null' %}
+                                        <select class="form-control select2" name ="country_name"  required  autocomplete="off">
+                                            <option value="" selected disabled>No Country Found!</option>
+                                        </select>
+                                        {% else %}
+                                        <select class="form-control select2" name ="country_name" id="country"   required  autocomplete="off">
+                                            <option value="" selected disabled>Select Country</option>
+                                            {%for details in country_data_list %}
+                                            <option value="{{ details.COUNTRY_NAME }}" > {{ details.COUNTRY_NAME }} </option>
+                                            {%endfor%}
+                                        </select>
+                                        {% endifequal %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Select State</label>
+                                    {% ifequal state  'null' %}
+                                        <select class="form-control select2 " name ="state_name"  required  autocomplete="off">
+                                            <option value="" selected disabled>No State Found!</option>
+                                        </select>
+                                        {% else %}
+                                        <select class="form-control select2" name ="state_name" id="state"  required  autocomplete="off">
+                                            <option value="" selected disabled>Select State</option>
+                                            {%for details in state_data_list %}
+                                            <option value="{{ details.STATE_NAME }}" name="{{ details.COUNTRY_NAME }}" > {{ details.STATE_NAME }} </option>
+                                            {%endfor%}
+                                        </select>
+                                    {% endifequal %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">City Name </label>
+                                    <input  type="text" class="form-control" name="notice_description" placeholder="Enter City Name....." required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">City Pin-Code </label>
+                                    <input  type="text" class="form-control" name="notice_description" placeholder="Enter City Pin-Code....." required>
+                                </div>
+                                <br>
+                                <div class="form-group float-end">
+                                    <button class="btn btn-primary account-btn" type="submit" name="submit" >Add Notice</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

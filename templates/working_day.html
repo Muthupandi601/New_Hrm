@@ -1,0 +1,93 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Set Working Day</h4></u>
+             </div>
+        </div>
+</div>
+{% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }}
+                </div>
+             {% endif %}
+        {% endblock %}
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-2">
+
+                </div>
+                <div class="col-lg-6 col-md-8 login-box">
+                    <div class="col-lg-12 login-title">
+                    </div>
+                    <div class="col-lg-12 login-form">
+                        <div class="col-lg-12 login-form">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18" style="color: green">Currently Working Day</h4>
+                                </div>
+                            </div>
+                            <form action="{% url 'Set_Working_Day' %}" method="post" enctype="multipart/form-data" >
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {% ifequal db_value 'null' %}
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="sunday" name="sun">
+                                    <label class="form-check-label" for="sunday">Sun</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="monday" name="mon">
+                                    <label class="form-check-label" for="monday">Mon</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="tuesday" name="tue">
+                                    <label class="form-check-label" for="tuesday">Tue</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="wednesday" name="wed">
+                                    <label class="form-check-label" for="wednesday">Wed</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="thursday" name="thu">
+                                    <label class="form-check-label" for="thursday">Thu</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="friday" name="fri">
+                                    <label class="form-check-label" for="friday">Fri</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="saturday" name="sat">
+                                    <label class="form-check-label" for="saturday">Sat</label>&nbsp;&nbsp;
+                                    {% else %}
+                                    {%for details in data %}
+                                    <input class="form-check-input" type="text" value="{{details.ID}}" name="id" hidden>
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="sunday1" name="sun" {% ifequal details.SUNDAY  '1' %}checked{% endifequal %}>
+                                    <label class="form-check-label" for="sunday1">Sun</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="monday1" name="mon" {% ifequal details.MONDAY  '1' %}checked{% endifequal %}>
+                                    <label class="form-check-label" for="monday1">Mon</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="tuesday1" name="tue" {% ifequal details.TUESDAY  '1' %}checked{% endifequal %}>
+                                    <label class="form-check-label" for="tuesday1">Tue</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="wednesday1" name="wed" {% ifequal details.WEDNESDAY  '1' %}checked{% endifequal %}>
+                                    <label class="form-check-label" for="wednesday1">Wed</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="thursday1" name="thu" {% ifequal details.THURSDAY  '1' %}checked{% endifequal %}>
+                                    <label class="form-check-label" for="thursday1">Thu</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="friday1" name="fri" {% ifequal details.FRIDAY  '1' %}checked{% endifequal %}>
+                                    <label class="form-check-label" for="friday1">Fri</label>&nbsp;&nbsp;
+                                    <input class="form-check-input" type="checkbox" value="Apple" id="saturday1" name="sat" {% ifequal details.SATURDAY  '1' %}checked{% endifequal %}>
+                                    <label class="form-check-label" for="saturday1">Sat</label>&nbsp;&nbsp;
+                                    {% endfor %}
+                                    {% endifequal %}
+                                </div>
+                                <br>
+                                <hr>
+                                 <div class="form-group float-end">
+                                        <button class="btn btn-primary account-btn" type="submit" name="submit" >UPDATE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

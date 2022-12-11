@@ -1,0 +1,28 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Home Page</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <form class="row row-cols-lg-auto g-3 align-items-center" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <br>
+            <div class="row row-cols-lg-auto g-3 align-items-center">
+                <label class="form-check-label">Document Upload:</label>
+                <input type="text" class="form-control" id="inputGroupFile01" name="vv" value="fhfhfh">
+               <input id="id_docfile" type="file" name="docfile" accept="image/x-png" required/>
+            </div>
+            <div >
+                <button type="submit"  name="GetData" value="GetData">GetData</button>
+            </div>
+       </form>
+
+
+        <!-- end row -->
+{% endblock %}

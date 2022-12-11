@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>Student Registeration</title>
+    <style type="text/css">
+        .navbar .megamenu {
+            padding: 1rem;
+            text-decoration: none;
+        }
+
+        .megamenu a {
+            text-decoration: none;
+        }
+
+        /* ============ desktop view ============ */
+        @media all and (min-width: 992px) {
+
+            .navbar .has-megamenu {
+                position: static !important;
+            }
+
+            .navbar .megamenu {
+                left: 0;
+                right: 0;
+                width: 100%;
+                margin-top: 0;
+            }
+
+        }
+
+        /* ============ desktop view .end// ============ */
+
+
+        /* ============ mobile view ============ */
+        @media(max-width: 991px) {
+
+            .navbar.fixed-top .navbar-collapse,
+            .navbar.sticky-top .navbar-collapse {
+                overflow-y: auto;
+                max-height: 90vh;
+                margin-top: 10px;
+            }
+        }
+
+        /* ============ mobile view .end// ============ */
+    </style>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            /////// Prevent closing from click inside dropdown
+            document.querySelectorAll('.dropdown-menu').forEach(function (element) {
+                element.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            })
+        });
+          // DOMContentLoaded  end
+    </script>
+
+    <script type="text/javascript">
+        function showMessage() {
+            alert("Student Registered!");
+        }
+    </script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-left:25px;padding-right:25px">
+        <a class="navbar-brand" href="adminpanel">Admin Panel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="student_registeration">Registeration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="search_students">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="fees_collection">Fees Collection</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown has-megamenu">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Mega menu </a>
+                    <div class="dropdown-menu megamenu" role="menu">
+                        <div class="row g-3">
+                            <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                    <h6 class="title">Title Menu One</h6>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                    </ul>
+                                </div> <!-- col-megamenu.// -->
+                            </div><!-- end col-3 -->
+                            <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                    <h6 class="title">Title Menu Two</h6>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                    </ul>
+                                </div> <!-- col-megamenu.// -->
+                            </div><!-- end col-3 -->
+                            <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                    <h6 class="title">Title Menu Three</h6>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                    </ul>
+                                </div> <!-- col-megamenu.// -->
+                            </div>
+                            <div class="col-lg-3 col-6">
+                                <div class="col-megamenu">
+                                    <h6 class="title">Title Menu Four</h6>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                        <li><a href="#">Custom Menu</a></li>
+                                    </ul>
+                                </div> <!-- col-megamenu.// -->
+                            </div><!-- end col-3 -->
+                        </div><!-- end row -->
+                    </div> <!-- dropdown-mega-menu.// -->
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div style="padding: 20px;">
+        <form method="post" action="student_registeration" onsubmit="showMessage()">{% csrf_token%}
+            <div class="row">
+                <div class="alert alert-primary" role="alert">
+                    Student Registeration
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="admno" class="form-label">Admission Number <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="admno" name="admno" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="roll" class="form-label">Roll Number<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="roll" name="roll" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="class_student" class="form-label">Class <span style="color:red">*</span></label>
+                        <select name="class_student" id="class_student" class="form-control" required>
+                            <option value="LKG">LKG</option>
+                            <option value="UKG">UKG</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="section" class="form-label">Section <span style="color:red">*</span></label>
+                        <select name="section" id="section" class="form-control" required>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="fname" class="form-label">First Name <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="fname" name="fname" required>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="lname" class="form-label">Last Name<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="lname" name="lname" required>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender <span style="color:red">*</span></label>
+                        <select name="gender" id="gender" class="form-control" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <!-- <option value="Non-Binary">Non-Binary</option>
+                        <option value="Rather Not Say">Rather Not Say</option> -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date of Birth <span style="color:red">*</span></label>
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="category" name="category" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label for="religion" class="form-label">Religion<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="religion" name="religion" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label for="caste" class="form-label">Caste<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="caste" name="caste" required>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="phno" class="form-label">Mobile Number<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="phno" name="phno" required>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email<span style="color:red">*</span></label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                </div>
+
+                <div class="alert alert-primary" role="alert">
+                    Parent Details
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="fathername" class="form-label">Father Name<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="fathername" name="fathername" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="fatherphone" class="form-label">Father Phone<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="fatherphone" name="fatherphone" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="fatherocc" class="form-label">Father Occupation<span
+                                style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="fatherocc" name="fatherocc" required>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="mothername" class="form-label">Mother Name<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="mothername" name="mothername" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="motherphone" class="form-label">Mother Phone<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="motherphone" name="motherphone" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="motherocc" class="form-label">Mother Occupation<span
+                                style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="motherocc" name="motherocc" required>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+
+                </div>
+
+                <div class="alert alert-primary" role="alert">
+                    Guardian Details
+                </div>
+
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="guardianname" class="form-label">Guardian Name</label>
+                        <input type="text" class="form-control" id="guardianname" name="guardianname">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="guardianphone" class="form-label">Guardian Phone</label>
+                        <input type="text" class="form-control" id="guardianphone" name="guardianphone">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="guardianemail" class="form-label">Guardian Email</label>
+                        <input type="text" class="form-control" id="guardianemail" name="guardianemail">
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="guardianrelation" class="form-label">Guardian Relation</label>
+                        <input type="text" class="form-control" id="guardianrelation" name="guardianrelation">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="guardianocc" class="form-label">Guardian Occupation</label>
+                        <input type="text" class="form-control" id="guardianocc" name="guardianocc">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="guardianadd" class="form-label">Guardian Address</label>
+                        <input type="text" class="form-control" id="guardianadd" name="guardianadd">
+                    </div>
+                </div>
+
+
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+
+        <!-- <form method="post" action="search_students">{% csrf_token%}
+            <div class="col-md-6">
+                <div class="mb-3">
+                <label for="admno_for_search" class="form-label">Admno</label>
+                <input type="text" class="form-control" id="admno_for_search" name="admno_for_search">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form> -->
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>

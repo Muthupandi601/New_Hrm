@@ -1,0 +1,66 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+{% load static %}
+ {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }}
+                </div>
+             {% endif %}
+        {% endblock %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="box-header with-border">
+                        <p align="right">
+                            <a href="{% url 'Add_Notice' %}">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+                                <thead>
+                                <tr class="text-dark">
+                                    <th>SL</th>
+                                    <th>TITLE</th>
+                                    <th>CREATED AT</th>
+                                    <th>STATUS</th>
+                                    <th>ACTION</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {%for details in data %}
+                                <tr>
+                                    <td>{{details.ID }}</td>
+                                    <td>{{details.TITLE }}</td>
+                                    <td>{{details.CREATED_AT }}</td>
+                                    <td>{{details.STATUS }}</td>
+                                    <td>
+                                        <select class="form-control"   onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                            <option  selected disabled>Edit Status</option>
+                                            <option value="{% url 'Edit_Notice_Status' %}?value=Published~{{details.Db_id }}">Published</option>
+                                            <option value="{% url 'Edit_Notice_Status' %}?value=Unpublished~{{details.Db_id }}">Unpublished</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+{% endblock %}

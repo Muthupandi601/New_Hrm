@@ -1,0 +1,119 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">FORM C FORMAT OF REGISTER OF LOAN/RECOVERIES </h4></u>
+            </div>
+        </div>
+    </div>
+
+     {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+    <!-- end page title -->
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <h4  class="card-title mb-4">Search Client Wise:</h4>
+                 <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" >
+                    {% csrf_token %}
+                     <div  class="mb-3 col-lg-4">
+                        <label>Client</label><code>*</code>
+                        <select class="form-control select2" name ="client" id="selectclient" required>
+                               <option></option>
+                                 {% for item in client %}
+                                     <option value="{{ item }}" {% if item == form.client %}selected="selected"{% endif %}> {{ item }} </option>
+                                 {% endfor %}
+                        </select>
+                    </div>
+                    <div  class="mb-3 col-lg-4">
+                        <label>YEAR /MONTH</label><code>*</code>
+                        <div class="position-relative" id="datepicker4">
+                                    <input type="text" class="form-control" data-date-container='#datepicker4'  autocomplete="off" data-provide="datepicker"
+                                    data-date-format="M-yyyy" data-date-min-view-mode="1" data-date-autoclose="true" name="date_month" value="{{form.date_month}}" required>
+                       </div>
+                    </div>
+                   <div class="mb-3 col-lg-4" >
+                        <button type="submit" class="btn btn-primary" name="GetData" value="GetData">Get List</button>
+                    </div>
+
+
+                </form>
+            <!--<a href="{% url 'export_data' %}">Export Data</a>-->
+           <!-- <a href="{% url 'export_users_xls' %}">Export all users</a>-->
+
+                <hr>
+                    <b>
+                     <center>
+
+                         <caption>Form XXIII</caption> <br>
+                         <caption>See Rule 78(1)(a)(iii)</caption>
+                         <caption>Contract Labour (Regulation & Abolition) Central Rules/caption> <br>
+                         <caption>Register of Overtime <br>
+
+                     </center>
+                    </b>
+               <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                   <thead>
+                    <tr>
+                        <th>Si.No</th>
+                        <th>Employee Code</th>
+                        <th>Name of the Workmen</th>
+                        <th>Fathers Name</th>
+                        <th>Sex</th>
+                        <th>Designation/ nature of employment</th>
+                        <th>Dates on which overtime worked</th>
+                        <th>Total Overtime worked or Producetion in case of picee  Rates</th>
+                        <th>Normal rate of wages</th>
+                        <th>Overtime earnings</th>
+                        <th>Date on which overtime wages paid</th>
+                        <th>Remarks</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    {%for details in em_mon_report %}
+
+                    <tr>
+                        <td>{{ details.ID }}</td>
+                        <td>{{ details.EMP_CODE }}</td>
+                        <td>{{ details.EMP_NAME }}</td>
+                        <td>{{ details.FATHER_NAME }}</td>
+                        <td>{{ details.SEX }}</td>
+                        <td>{{ details.DESIGNATION }}</td>
+                        <td>{{ details.DATE }}</td>
+                        <td>{{ details.OVERTIME }}</td>
+                        <td>{{ details.NORMAL_RATE_WAGES }}</td>
+                        <td>{{ details.EARNINGS }}</td>
+                        <td>No</td>
+                        <td>No</td>
+
+
+
+
+                   </tr>
+
+                    {%endfor%}
+                   </tbody>
+                </table>
+
+               <!-- end card body -->
+
+        <!-- end card -->
+     </div>
+    </div>
+    </div>
+{% endblock %}

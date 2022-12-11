@@ -1,0 +1,110 @@
+{% extends 'Base.html' %} {% block content %}
+<!-- start page title -->
+{% load static %}
+
+<style>
+  #see {
+    float: right;
+  }
+  #see1 {
+    float: left;
+  }
+  #see2 {
+    float: right;
+  }
+  #see3 {
+    float: left;
+  }
+</style>
+<div class="row">
+  <center>
+    <h4 style="color: red">{{month_sal}} Attendance Statement</h4>
+  </center>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="box-header with-border"></div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="invoice-title" style="background-color: #b2adaf">
+            <div class="mb-4">
+              <img
+                src="{% static 'assets/images/logo-dark.png' %}"
+                alt=""
+                height="25"
+              />
+            </div>
+            <center>
+              <h4 style="text-transform: capitalize">Valiance Technology</h4>
+              No 57A, 19th st, Secretariat Colony, Vinayakapuram, Lakshmipuram,
+              Chennai, Tamil Nadu 600099
+            </center>
+          </div>
+          <hr />
+          <div class="table-responsive">
+            <table
+              class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100"
+            >
+              <thead>
+                <tr class="text-dark">
+                  <th>CODE</th>
+                  <th>NAME</th>
+                  <th>DESTINATION</th>
+                  <th>TOTAL PRESENT</th>
+                  <th>TOTAL ABSENT</th>
+                  <th>TOTAL LEAVE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% ifequal data 'data_is_empty' %}
+                <tr>
+                  <td colspan="6">
+                    <center><h3>No data available in table</h3></center>
+                  </td>
+                </tr>
+                {% else %} {%for details in data %}
+                <tr>
+                  <td>{{details.EMP_CODE }}</td>
+                  <td>{{details.EMP_NAME }}</td>
+                  <td>{{details.DESIGNATION }}</td>
+                  <td>{{details.TOTAL_PRESENT }}</td>
+                  <td>{{details.TOTAL_ABSENT }}</td>
+                  <td>{{details.TOTAL_LEAVE }}</td>
+                  {%endfor%}
+                </tr>
+                {% endifequal %}
+              </tbody>
+            </table>
+            <div class="Bottom_txt_statement text-center my-3">
+              <h4 class="mb-0">
+                This is Attendance Statement for only one month
+              </h4>
+            </div>
+            <div>
+              <hr id="see1" style="border-top: 2px dashed; width: 165px" />
+              <hr id="see" style="border-top: 2px dashed; width: 200px" />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4 id="see2">AUTHORIZE SIGNATURE</h4>
+          <h4 id="see3">HR SIGNATURE</h4>
+        </div>
+        <div class="d-print-none">
+          <div class="float-end">
+            <a
+              href="javascript:window.print()"
+              class="btn btn-success waves-effect waves-light me-1"
+              ONCLICK="printDiv(printable_area)"
+              ><i class="fa fa-print"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end card body -->
+  </div>
+  <!-- end card -->
+</div>
+
+{% endblock %}

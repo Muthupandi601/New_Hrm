@@ -1,0 +1,48 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+      <h4>EDIT MONTH-YEAR({{url.year}})</h4>
+
+    <div class="row">
+     <div class="col-lg-12">
+                 {% for details in data %}
+                <form method="POST" >
+                    {% csrf_token %}
+
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <input  type="text" name="secure" value="{{url.secure}}" hidden>
+                        <input  type="text" name="year" value="{{url.year}}" hidden>
+                          <div  class="mb-3 col-lg-4">
+                            <label >DAYS PRESENT</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.DAYS_PRESENT}}"  name="day_per" autocomplete="off">
+                            </div>
+                          </div>
+                          <div  class="mb-3 col-lg-4">
+                            <label >OT_HRS</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.OVERTIME_HRS}}"  name="ot_hrs" autocomplete="off">
+                            </div>
+                          </div>
+                          <div  class="mb-3 col-lg-4">
+                            <label>EXTRA_SHIFT_HRS</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.SHIFT_ALLOWANCES_HRS}}"  name="e_sf_hrs" autocomplete="off">
+                            </div>
+                          </div>
+                    </div>
+                    <hr>
+                    <center>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-md" name="GetData" value="UPDATE">UPDATE</button>
+                    </div>
+                        </center>
+                </form>
+            {%endfor%}
+            <!-- end card body -->
+
+        <!-- end card -->
+     </div>
+    </div>
+
+{% endblock %}

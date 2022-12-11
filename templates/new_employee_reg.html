@@ -1,0 +1,828 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+        <style>
+        /* Hide all steps by default: */
+        .tab {
+          display: none;
+        }
+        /* Mark input boxes that gets an error on validation: */
+        input.invalid {
+          background-color: #ffdddd;
+        }
+        </style>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">New Employee Register</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        {% if 'New_Employee_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Employee_Req }}
+                <br>
+                {{ request.session.New_Employee_Code }}
+             </div>
+        {% endif %}
+
+        {% block session_emp_name %}
+             {% if session_emp_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_emp_name }} <br> {{ session_emp_code }}
+                </div>
+             {% endif %}
+        {% endblock %}
+
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                   <form   id="regForm"   method="post" class="custom-validation">
+                       {% csrf_token %}
+                        <div class="tab1" >
+                            <h4  class="card-title mb-4">Company Details :</h4>
+                            {% for message_value in error %}
+                             <b style="color:red">{{message_value}}<code>*</code>,</b>
+                            {% endfor %}
+                            <hr>
+                            <div class="row row-cols-lg-auto g-3 align-items-center">
+                                <div  class="mb-0 col-lg-4">
+                                    <label>CLIENT</label><code>*</code>
+                                    <select class="form-control select2" name ="client" id="selectclient">
+                                           <option></option>
+                                             {% for item in client %}
+                                                 <option value="{{ item }}" {% if item == form.client %}selected="selected"{% endif %}> {{ item }} </option>
+                                             {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="mb-0 col-lg-4">
+                                    <label>COUNTRY</label><code>*</code>
+                                    <select class="form-control select2" name ="country" id="selectcountries"  autocomplete="off">
+                                       <option value="{{form.country}}">{{form.country}}</option>
+                                    </select>
+                                </div>
+
+                                <div  class="mb-0 col-lg-4">
+                                    <label>STATE</label><code>*</code>
+                                    <select class="form-control select2" name ="company_state" id="selectstate">
+                                       <option value="{{form.company_state}}">{{form.company_state}}</option>
+                                    </select>
+                                </div>
+
+                                <div  class="mb-0 col-lg-4">
+                                    <label>DISTRICT</label><code>*</code>
+                                    <select class="form-control select2" name ="company_district" id="selectcity">
+                                        <option value="{{form.company_district}}">{{form.company_district}}</option>
+                                    </select>
+                                </div>
+                                <div  class="mb-0 col-lg-4">
+                                    <label>BRANCH</label><code>*</code>
+                                    <select class="form-control select2" name ="branch" id="selectbranch">
+                                        <option value="{{form.branch}}">{{form.branch}}</option>
+                                    </select>
+                                </div>
+
+                                <div  class="mb-0 col-lg-4">
+                                    <label>AREA</label><code>*</code>
+                                    <select class="form-control select2" name ="area" id="selectarea">
+                                        <option value="{{form.area}}">{{form.area}}</option>
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>UNIT</label><code>*</code>
+                                    <select class="form-control select2" name ="unit" id="selectunit">
+                                        <option value="{{form.unit}}">{{form.unit}}</option>
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>Bio-Data Submission Date</label>
+                                    <div class="input-group" id="datepicker1">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" name="bdsb" value="{{form.bdsb}}" >
+
+                                        <span class="input-group-text"><i class="mdi mdi-calendar" ></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                                <div class="mb-3 col-lg-4">
+                                    <label>Category</label>
+                                    <select class="form-control select2" name="category">
+                                        <option value="">Select One</option>
+                                        <option value="AK" {% if form.category == "AK" %}selected="selected"{% endif %}>Alaska</option>
+                                        <option value="HI" {% if form.category == "HI" %}selected="selected"{% endif %}>Hawaii</option>
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>Issue Date</label>
+                                    <div class="input-group" >
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="issue_date" data-date-autoclose="true" autocomplete="off" value="{{form.issue_date}}" >
+
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>Valid Date</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" name="valid_date"  value="{{form.valid_date}}">
+
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                   <hr>
+                   <br>
+                       <div class="tab">
+                            <h4  class="card-title mb-4">EMPLOYEE DETAILS :</h4>
+						    <hr>
+                            <div class="row row-cols-lg-auto g-3 align-items-center">
+
+                                <div  class="mb-3 col-lg-4">
+                                    <label>Salutation</label>
+                                    <select class="form-control" name ="salutation">
+                                        <option value="">Select One</option>
+                                        <option value="mr" {% if form.category == "mr" %}selected="selected"{% endif %}>MR</option>
+                                        <option value="mrs" {% if form.category == "mrs" %}selected="selected"{% endif %}>MRS</option>
+                                    </select>
+
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>DATE OF JOIN</label><code>*</code>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" name="doj" value="{{form.doj}}">
+
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">NAME AS PER AADHAAR</label><code>*</code>
+                                     <input type="text" class="form-control" value="{{ form.employee_name }}" name ="employee_name" placeholder="Enter First Name"  autocomplete="off"/>
+                                </div>
+                                <div class="mb-3 col-lg-4">
+                                    <label>DESIGNATION</label><code>*</code>
+                                     <select class="form-control select2" name ="designation"   autocomplete="off">
+                                        <option></option>
+                                         {%for details in designation_list %}
+                                         <option val="{{ details.DESIGNATION }}" {% if details.DESIGNATION == form.designation %}selected="selected"{% endif %}> {{ details.DESIGNATION }} </option>
+                                         {% endfor %}
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>DATE OF BIRTH</label><code>*</code>
+                                    <div class="input-group" id="datepicker1">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" name="dob" value="{{ form.dob }}">
+
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>MARITAL STATUS</label><code>*</code>
+                                    <select class="form-control" name="marital_status">
+                                        <option value="">Select One</option>
+                                        <option value="Married" {% if form.marital_status == "Married" %}selected="selected"{% endif %}>Married</option>
+                                        <option value="single" {% if form.marital_status == "single" %}selected="selected"{% endif %}>single</option>
+                                        <option value="divorced" {% if form.marital_status == "divorced" %}selected="selected"{% endif %}>divorced</option>
+                                        <option value="widowed" {% if form.marital_status == "widowed" %}selected="selected"{% endif %}>widowed </option>
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>GENDER</label><code>*</code>
+                                    <select class="form-control" name="gender">
+                                            <option value="">Select One</option>
+                                            <option value="male" {% if form.gender == "male" %}selected="selected"{% endif %}>Male</option>
+                                            <option value="female" {% if form.gender == "female" %}selected="selected"{% endif %}>Female</option>
+                                            <option value="transgender" {% ifequal form.gender  'transgender' %}selected="selected"{% endifequal %}>Transgender</option>
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">MOBILE NO</label><code>*</code>
+                                    <input type="text" class="form-control"   name ="contact_no" placeholder="Contact no"  autocomplete="off" value="{{ form.contact_no }}" />
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Age</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" name ="age" placeholder="Enter Your Age" autocomplete="off" value="{{ form.age }}" />
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Experience</label>
+                                    <input type="text" class="form-control"  data-parsley-minlength="1" name ="experiance" placeholder="Enter Your Experiance" autocomplete="off" value="{{ form.experiance }}" />
+                                </div>
+                            </div>
+                       </div>
+                       <div class="tab">
+                            <h4  class="card-title mb-4">EMPLOYEE PERSONAL DETAILS :</h4>
+						    <hr>
+                            <div class="row row-cols-lg-auto g-3 align-items-center">
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">WIFE/HUSBAND NAME</label><code>*</code>
+                                    <input class="form-control" type="text" value="{{form.wife_husband}}"  name="wife_husband"  autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">FATHER NAME</label><code>*</code>
+                                    <input class="form-control" type="text" value="{{form.father_name}}"  name="father_name"  autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >MOTHER NAME</label><code>*</code>
+                                    <input class="form-control" type="text" value="{{form.mother_name}}"  name="mother_name"  autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>HIGHEST EDUCATION</label><code>*</code>
+                                    <select class="form-control" name="higher_edu">
+                                        <option value="">Select One</option>
+                                        <option value="sslc" {% ifequal form.higher_edu  'sslc' %}selected="selected"{% endifequal %}>SSLC</option>
+                                        <option value="hsc" {% ifequal form.higher_edu  'hsc' %}selected="selected"{% endifequal %}>HSC</option>
+                                        <option value="ug" {% ifequal form.higher_edu  'ug' %}selected="selected"{% endifequal %}>UG</option>
+                                        <option value="pg" {% ifequal form.higher_edu  'pg' %}selected="selected"{% endifequal %}>PG</option>
+                                        <option value="diploma" {% ifequal form.higher_edu  'diploma' %}selected="selected"{% endifequal %}>DIPLOMA</option>
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Birth Place</label>
+                                    <input class="form-control" type="text" value="{{form.birth_place}}"  name="birth_place"  autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">NATIONALITY</label><code>*</code>
+                                    <input class="form-control" type="text" value="{{form.nationality}}"
+                                             name="nationality"  autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>BLOOD GROUP</label><code>*</code>
+                                    <select class="form-control" name="blood_group">
+                                        <option value="">Select One</option>
+                                        <option value="b_passtive" {% ifequal form.blood_group  'b_passtive' %}selected="selected"{% endifequal %}>B+</option>
+                                        <option value="a_passtive" {% ifequal form.blood_group  'a_passtive' %}selected="selected"{% endifequal %}>A+</option>
+                                        <option value="ab_passtive" {% ifequal form.blood_group  'ab_passtive' %}selected="selected"{% endifequal %}>AB+</option>
+                                        <option value="o_passtive" {% ifequal form.blood_group  'o_passtive' %}selected="selected"{% endifequal %}>O+</option>
+                                    </select>
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Shoe Size</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" value="{{form.shoe_size}}" name ="shoe_size" placeholder="Enter Shoe Size" autocomplete="off"/>
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Waist</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" value="{{form.waist}}" name ="waist" placeholder="Enter Waist"  autocomplete="off"/>
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Height</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" value="{{form.height}}" name ="height" placeholder="Enter Height" autocomplete="off"/>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Weight</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" value="{{form.weight}}" name ="weight" placeholder="Enter Weight" autocomplete="off"/>
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Chest</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" value="{{form.chest}}" name ="chest" placeholder="Enter Chest" autocomplete="off"/>
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">T-Shirt Size</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" value="{{form.t_shirt}}" name ="t_shirt" placeholder="Enter T-Shirst Size" autocomplete="off"/>
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">Trouser Size</label>
+                                    <input type="number" class="form-control"  data-parsley-minlength="1" value="{{form.thouser_size}}" name ="thouser_size" placeholder="Enter Thouser Size" autocomplete="off"/>
+                                </div>
+                            </div>
+                       </div>
+                        <div class="tab">
+                            <h4  class="card-title mb-4">EMPLOYEE CONFIDENTIAL DETAILS :</h4>
+						    <hr>
+                             <div class="row row-cols-lg-auto g-3 align-items-center">
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">PAN NO</label><code>*</code>
+                                    <input class="form-control" type="text"   name="pan_no" autocomplete="off" value="{{form.pan_no}}">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >PF NO</label><code>*</code>
+                                    <input class="form-control" type="text"   name="pf_no" autocomplete="off" value="{{form.pf_no}}">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >ESI NO</label><code>*</code>
+                                    <input class="form-control" type="text"   name="esi_no" autocomplete="off" value="{{form.esi_no}}">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">AADHAR NO</label><code>*</code>
+                                    <input class="form-control" type="text"   name="aadhar_no" autocomplete="off" value="{{form.aadhar_no}}">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >UAN NO</label><code>*</code>
+                                    <input class="form-control" type="text"  name="uan_no" autocomplete="off" value="{{form.uan_no}}">
+                                </div>
+
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >ID CARD NO</label><code>*</code>
+                                        <input class="form-control" type="text" value="{{form.id_card_no}}"
+                                             name="id_card_no" autocomplete="off">
+                                        <!--<input type="checkbox"  switch="bool" name="permanet" checked />
+                                       <label for="switch3" data-on-label="Yes" data-off-label="No" ></label> Is Permanet-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab">
+                            <h4  class="card-title mb-4">EMPLOYEE BANK DETAILS :</h4>
+                            <hr>
+                            <div class="row row-cols-lg-auto g-3 align-items-center">
+                                 <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >ACCOUNT NO</label><code>*</code>
+                                     <input class="form-control" type="text" value="{{form.bank_account_no}}"  autocomplete="off" name="bank_account_no">
+                                </div>
+                                 <div  class="mb-3 col-lg-4">
+                                    <label>BANK NAME</label><code>*</code>
+                                    <select class="form-control" name="bank_name">
+                                        <option></option>
+                                        {% for item in bank_list %}
+                                        <option value="{{ item.BANK_NAME }}" {% if item.BANK_NAME == form.bank_name %}selected="selected"{% endif %}> {{ item.BANK_NAME }} </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >IFSC CODE</label><code>*</code>
+                                    <input class="form-control" type="text" value="{{form.ifsc_code}}"  name="ifsc_code" autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Branch</label>
+                                    <input class="form-control" type="text" value="{{form.bank_branch}}"  name="bank_branch" autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>Payment Mode</label>
+                                    <select class="form-control" name="payment_mode">
+                                        <option value="">Select One</option>
+                                        <option value="online" {% ifequal form.payment_mode  'online' %}selected="selected"{% endifequal %}>ONLINE</option>
+                                        <option value="cash" {% ifequal form.payment_mode  'cash' %}selected="selected"{% endifequal %}>CASH</option>
+                                        <option value="cheque" {% ifequal form.payment_mode  'cheque' %}selected="selected"{% endifequal %}>CHEQUE</option>
+                                    </select>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Passbook Name</label>
+                                    <input class="form-control" type="text" value="{{form.passbook_name}}" id="example-text-input" name="passbook_name" autocomplete="off">
+                                </div>
+                            </div>
+                             <h5 >EMPLOYEE JOIN ACCOUNT DETAILS :</h5>
+                            <hr>
+                            <div class="row row-cols-lg-auto g-3 align-items-center">
+                                  <div  class="mb-3 col-lg-4">
+                                      <label for="example-text-input" >Join Account No</label>
+                                      <input class="form-control" type="text" value="{{form.join_acc_no}}"  name="join_acc_no" autocomplete="off" >
+                                  </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Join Account Bank Name</label>
+                                    <input class="form-control" type="text" value="{{form.join_acc_bank_name}}"  name="join_acc_bank_name"  autocomplete="off" >
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                      <label for="example-text-input" >Join Account Name</label>
+                                      <input class="form-control" type="text" value="{{form.join_acc_name}}"  name="join_acc_name"  autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Join Account Branch Name</label>
+                                    <input class="form-control" type="text" value="{{form.join_acc_br_name}}"  name="join_acc_br_name" autocomplete="off">
+                                </div>
+                            </div>
+						    <hr>
+                        </div>
+                        <div class="tab">
+                            <h4  class="card-title mb-4">COMMUNICATION DETAILS :</h4>
+                            <hr>
+                            <div class="row row-cols-lg-auto g-3 align-items-center">
+                                <div  class="mb-3 col-lg-4">
+                                    <label>ADDRESS</label><code>*</code>
+                                    <textarea  class="form-control"  name ="address" rows="1" id="address_value" autocomplete="off" oninput="changeinput()">{{form.address}}</textarea>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Street</label>
+                                    <input class="form-control" type="text" id="street_value" value="{{form.street}}" oninput="changeinput()"  name="street" autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>District</label>
+                                    <input class="form-control" type="text" id="district_value" value="{{form.district}}" oninput="changeinput()"  name="district" autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >PIN-Code</label>
+                                    <input class="form-control" type="number" value="{{form.pin_code}}" id="pin_code_value" autocomplete="off" name="pin_code" oninput="changeinput()">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Telephone</label>
+                                    <input class="form-control" type="number" value="{{form.telephone}}"  name="telephone"  autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >EMERGENCY CONTACT NO</label><code>*</code>
+                                    <input class="form-control" type="text"   name="mobile_no"  autocomplete="off" value="{{form.mobile_no}}">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                     <label for="example-text-input" >EMAIL ID</label><code>*</code>
+                                     <input class="form-control" type="email" value="{{form.email_id}}"  name="email_id" autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>Duration</label>
+                                    <div class="input-group" id="datepicker1">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="duration" id="duration_value" oninput="changeinput()" data-date-autoclose="true" autocomplete="off" value="{{form.duration}}">
+
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                     <label>State</label>
+                                     <input class="form-control" type="text" value="{{form.state}}" id="state_value" oninput="changeinput()" name="state" autocomplete="off">
+                                </div>
+
+                            </div>
+                            <h4  class="card-title mb-4">PERMANENT ADDRESS :</h4>
+                            <input type="checkbox" id="switch3" switch="bool" name="permanet_address"/>
+                            <label for="switch3" data-on-label="Yes" data-off-label="No" onclick="SameAdress()"></label> Same As Above
+                            <hr>
+                            <div class="row row-cols-lg-auto g-3 align-items-center">
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input">ADDRESS</label>
+                                    <textarea  class="form-control"  id="per_address_value" name ="per_address" rows="1" autocomplete="off">{{form.per_address}}</textarea>
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >Street</label>
+                                    <input class="form-control" type="text" value="{{form.per_street}}" id="per_street_value"  name="per_street" autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>District</label>
+                                    <input class="form-control" type="text" value="{{form.per_district}}" id="per_district_value"  name="per_district" autocomplete="off">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label>Duration</label>
+                                    <div class="input-group" id="datepicker1">
+                                        <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="per_duration" id="per_duration_value" data-date-autoclose="true" autocomplete="off"  value="{{form.per_duration}}">
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                    <label for="example-text-input" >PIN-Code</label>
+                                    <input class="form-control" type="number" name="per_pin_code" id="per_pin_code_value" autocomplete="off" value="{{form.per_pin_code}}">
+                                </div>
+                                <div  class="mb-3 col-lg-4">
+                                     <label>State</label>
+                                     <input class="form-control" type="text" value="{{form.per_state}}" id="per_state_value"  name="per_state" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab">
+                            <h4  class="card-title mb-4">Salary Details :</h4>
+                                <div class="row row-cols-lg-auto g-3 align-items-center">
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Fixed Salary</label>
+                                        <input class="form-control" type="text"  value="{{form.fix_sal}}" name="fix_sal"  id="sal_value" autocomplete="off" readonly>
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >BASIC</label><code>*</code>
+                                        <input class="form-control" type="text" value="{{form.basic}}" id="basic_value"  oninput=myChangeFunction(this)  name="basic" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >DEARNESS ALLOWANCES</label><code>*</code>
+                                        <input class="form-control" type="text" value="{{form.dea_all}}" oninput=myChangeFunction(this) id="da_value"  name="dea_all" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Special Allowances</label>
+                                        <input class="form-control" type="text" value="{{form.spa}}" name="spa" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >HOUSE RENT ALLOWANCES</label><code>*</code>
+                                        <input class="form-control" type="text"  value="{{form.hra}}" id="house_value" oninput=myChangeFunction(this) name="hra" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Conveyance/Ta</label>
+                                        <input class="form-control" type="text"  value="{{form.con}}" name="con" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Other Allowances</label>
+                                        <input class="form-control" type="text" value="{{form.ota}}" name="ota" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Ot Per-Hrs Pay</label>
+                                        <input class="form-control" type="text"  value="{{form.ot}}" name="ot" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Site Allowances</label>
+                                        <input class="form-control" type="text"  value="{{form.sta}}" name="sta" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Extra Shift Per-Hrs PAY</label>
+                                        <input class="form-control" type="text"  value="{{form.e_sf_pay}}" name="e_sf_pay" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Incentive</label>
+                                        <input class="form-control" type="text"  value="{{form.inc}}" name="inc" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Leave Travel Allowances</label>
+                                        <input class="form-control" type="text"  value="{{form.lta}}" name="lta" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Medical Allowances</label>
+                                        <input class="form-control" type="text"  value="{{form.med_a}}" name="med_a" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Child Educations Allowances</label>
+                                        <input class="form-control" type="text"  value="{{form.cea}}" name="cea" autocomplete="off">
+
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Attendance Bonus</label>
+                                        <input class="form-control" type="text"  value="{{form.att_bo}}" name="att_bo" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Attendance Incentive</label>
+                                        <input class="form-control" type="text"  value="{{form.att_in}}" name="att_in" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Other Incentive</label>
+                                        <input class="form-control" type="text"  value="{{form.extra_bo}}" name="extra_bo" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Monthly Leave Wages</label>
+                                        <input class="form-control" type="text" value="{{form.mon_le_wa}}" name="mon_le_wa" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Reliver Duty Wages</label>
+                                        <input class="form-control" type="text"   value="{{form.re_du_wa}}" name="re_du_wa" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Arrears Wages</label>
+                                        <input class="form-control" type="text"   value="{{form.arr_wa}}" name="arr_wa" autocomplete="off">
+                                    </div>
+                                    <!--<div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input">PROFESSIONAL TAX</label><code>*</code>
+                                        <input class="form-control" type="text"   value="{{form.pro_tax}}" name="pro_tax" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >LABOUR WELFARE FUND</label><code>*</code>
+                                        <input class="form-control" type="text"   value="{{form.la_we_fu}}" name="la_we_fu" autocomplete="off">
+                                    </div>-->
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Income Tax</label>
+                                        <input class="form-control" type="text"  value="{{form.income_tax}}" name="income_tax" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Loan</label>
+                                        <input class="form-control" type="text"  value="{{form.loan}}" name="loan" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Salary Advance</label>
+                                        <input class="form-control" type="text"   value="{{form.salary_adv}}" name="salary_adv" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Other Deductions</label>
+                                        <input class="form-control" type="text"  value="{{form.other_dec}}" name="other_dec" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input" >Uniform Deductions</label>
+                                        <input class="form-control" type="text"   value="{{form.uni_dec}}" name="uni_dec" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input">Next of Kin/ Nomine E Name</label>
+                                        <input class="form-control" type="text"   value="{{form.nomine_name}}" name="nomine_name" autocomplete="off">
+                                    </div>
+                                    <div  class="mb-3 col-lg-4">
+                                        <label for="example-text-input">Next of Kin/ Nomine E Name (Relation)</label>
+                                        <input class="form-control" type="text"   value="{{form.nomine_relation}}" name="nomine_relation" autocomplete="off">
+                                    </div>
+                                </div>
+                            <hr>
+                        </div>
+                       <div class="tab">
+                            <h4  class="card-title mb-4">EMPLOYEE POLICE VERIFICATION DETAILS :</h4>
+						    <hr>
+                             <div class="row row-cols-lg-auto g-3 align-items-center">
+                                 <div  class="mb-0 col-lg-4">
+                                     <label for="example-text-input" >Verification No</label>
+                                     <input class="form-control" type="text" value="{{form.verification_no}}" name="verification_no" autocomplete="off" required>
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label>Verification Date</label>
+                                     <div class="input-group" id="datepicker1">
+                                         <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="verification_date" data-date-autoclose="true" autocomplete="off"  value="{{form.verification_date}}">
+
+                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                     </div><!-- input-group -->
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label for="example-text-input" >Criminology</label>
+                                     <input class="form-control" type="text" value="{{form.criminology}}"  name="criminology" autocomplete="off" required>
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label>Pv Send Date</label>
+                                     <div class="input-group" id="datepicker1">
+                                         <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="pv_send_date" data-date-autoclose="true" autocomplete="off"  value="{{form.pv_send_date}}">
+
+                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                     </div><!-- input-group -->
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label>Pv Return Date</label>
+                                     <div class="input-group" id="datepicker1">
+                                         <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="pv_return_date" data-date-autoclose="true" autocomplete="off"  value="{{form.pv_return_date}}">
+                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                     </div><!-- input-group -->
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label for="example-text-input">Name Of Police Thana</label>
+                                     <input class="form-control" type="text" value="{{form.name_of_police_thana}}"  name="name_of_police_thana" autocomplete="off">
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label for="example-text-input">Identity Sign</label>
+                                     <input class="form-control" type="text" value="{{form.identity_sign}}" name="identity_sign" autocomplete="off">
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label>Pv Valid Date</label>
+                                     <div class="input-group" id="datepicker1">
+                                         <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="pv_valid_date" data-date-autoclose="true" autocomplete="off"  value="{{form.pv_valid_date}}">
+                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                     </div><!-- input-group -->
+                                 </div>
+                                 <div  class="mb-0 col-lg-4">
+                                     <label for="example-text-input" >Remark By Thana</label>
+                                     <textarea  class="form-control" maxlength="500" name ="remark_by_thana" rows="1" autocomplete="off">{{form.remark_by_thana}}</textarea>
+                                 </div>
+                             </div>
+                       </div>
+                       <hr>
+                        <div style="overflow:auto;">
+                            <div style="float:right;">
+                              <button type="button" id="prevBtn" class="btn btn-primary waves-effect waves-light  "onclick="nextPrev(-1)" >Previous</button>
+                              <button type="button" id="nextBtn" class="btn btn-primary waves-effect waves-light " onclick="nextPrev(1)">Next</button>
+                            </div>
+                        </div>
+                        <div style="text-align:center;margin-top:40px;">
+                            <span class="step"></span>
+                            <span class="step"></span>
+                            <span class="step"></span>
+                            <span class="step"></span>
+                            <span class="step"></span>
+                            <span class="step"></span>
+                        </div>
+
+                    </form>
+
+                </div>
+            <script>
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+      // This function will display the specified tab of the form...
+      var x = document.getElementsByClassName("tab");
+      x[n].style.display = "block";
+      //... and fix the Previous/Next buttons:
+      if (n == 0) {
+        document.getElementById("prevBtn").style.display = "none";
+      } else {
+        document.getElementById("prevBtn").style.display = "inline";
+      }
+      if (n == (x.length - 1)) {
+        document.getElementById("nextBtn").innerHTML = "Submit";
+      } else {
+        document.getElementById("nextBtn").innerHTML = "Next";
+      }
+      //... and run a function that will display the correct step indicator:
+      fixStepIndicator(n)
+    }
+
+    function nextPrev(n) {
+      // This function will figure out which tab to display
+      var x = document.getElementsByClassName("tab");
+      // Exit the function if any field in the current tab is invalid:
+      if (n == 1 && !validateForm()) return false;
+      // Hide the current tab:
+      x[currentTab].style.display = "none";
+      // Increase or decrease the current tab by 1:
+      currentTab = currentTab + n;
+      // if you have reached the end of the form...
+      if (currentTab >= x.length) {
+        // ... the form gets submitted:
+
+        document.getElementById("regForm").submit();
+        return false;
+      }
+      // Otherwise, display the correct tab:
+      showTab(currentTab);
+    }
+
+    function validateForm() {
+      // This function deals with validation of the form fields
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("tab");
+      y = x[currentTab].getElementsByTagName("input");
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+
+          y[i].className += " invalid";
+          // and set the current valid status to false
+          valid = false;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        document.getElementsByClassName("step")[currentTab].className += " finish";
+      }
+      return true; // return the valid status
+    }
+
+    function fixStepIndicator(n) {
+      // This function removes the "active" class of all steps...
+      var i, x = document.getElementsByClassName("step");
+      for (i = 0; i < x.length; i++) {
+        x[i].className = x[i].className.replace(" active", "");
+      }
+      //... and adds the "active" class on the current step:
+      x[n].className += " active";
+    }
+    </script>
+     <script>
+         function myChangeFunction(input1) {
+           var basic_value =0;
+           var da_value =0;
+           var house_value =0;
+           var basic_input = document.getElementById('basic_value');
+           var da_input = document.getElementById('da_value');
+           var house_input= document.getElementById('house_value');
+           if(basic_input && basic_input.value)
+           {
+               basic_value=parseInt(basic_input.value);
+           }
+           if(da_input && da_input.value)
+           {
+               da_value=parseInt(da_input.value);
+           }
+           if(house_input && house_input.value)
+           {
+               house_value=parseInt(house_input.value);
+           }
+           var total =basic_value+da_value+house_value;
+           document.getElementById('sal_value').value=total;
+         }
+         function SameAdress()
+         {
+            var input =document.getElementById('switch3').checked;
+               if(input==false)
+               {
+                  var address=document.getElementById('address_value').value;
+                  var street=document.getElementById('street_value').value;
+                  var district=document.getElementById('district_value').value;
+                  var pin_code=document.getElementById('pin_code_value').value;
+                  var duration=document.getElementById('duration_value').value;
+                  var state=document.getElementById('state_value').value;
+
+                  document.getElementById('per_address_value').value=address;
+                  document.getElementById('per_street_value').value=street;
+                  document.getElementById('per_district_value').value=district;
+                  document.getElementById('per_pin_code_value').value=pin_code;
+                  document.getElementById('per_duration_value').value=duration;
+                  document.getElementById('per_state_value').value=state;
+               }
+               else
+               {
+                  document.getElementById('per_address_value').value="";
+                  document.getElementById('per_street_value').value="";
+                  document.getElementById('per_district_value').value="";
+                  document.getElementById('per_pin_code_value').value="";
+                  document.getElementById('per_duration_value').value="";
+                  document.getElementById('per_state_value').value="";
+
+               }
+         }
+         function changeinput()
+         {
+               var input =document.getElementById('switch3').checked;
+               if(input==true)
+               {
+
+                  var address=document.getElementById('address_value').value;
+                  var street=document.getElementById('street_value').value;
+                  var district=document.getElementById('district_value').value;
+                  var pin_code=document.getElementById('pin_code_value').value;
+                  var duration=document.getElementById('duration_value').value;
+                  var state=document.getElementById('state_value').value;
+
+
+                  document.getElementById('per_address_value').value=address;
+                  document.getElementById('per_street_value').value=street;
+                  document.getElementById('per_district_value').value=district;
+                  document.getElementById('per_pin_code_value').value=pin_code;
+                  document.getElementById('per_duration_value').value=duration;
+                  document.getElementById('per_state_value').value=state;
+               }
+         }
+     </script>           <!-- end card body -->
+            </div>
+            <!-- end card -->
+        </div>
+        <!-- end row -->
+{% endblock %}

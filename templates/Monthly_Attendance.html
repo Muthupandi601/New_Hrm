@@ -1,0 +1,233 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+
+    <!-- end page title -->
+<style>
+.table-bordered td, .table-bordered th {
+    border: 1px
+   solid #000000;
+}
+</style>
+     {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+     <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Search Employee Monthly Attendance</h4>
+                </div>
+            </div>
+     </div>
+
+     <div class="row">
+     <div class="col-lg-12">
+        <div class="">
+            <div class="">
+                <form method="POST" >
+                    {% csrf_token %}
+                <h4 class="card-title">Search:</h4>
+                   <p class="card-title-desc">Like <code>.country-state-city</code> client- <code>.unit-*</code> Year and Month.</p>
+                    <div class="table">
+                        <table class="table table-bordered mb-0 " style="border-color: #0b0b0b;text-align: left;" >
+
+                                <tr style="color:blue;">
+                                    <th>COUNTRY</th>
+                                    <th style="width: 200px;">STATE</th>
+                                    <th>DISTRICT</th>
+                                    <th>ZONE</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-control select2" name ="country" id="selectcountries" required  autocomplete="off">
+                                            <option></option>
+                                            {% for item in countries %}
+                                                 <option val="{{ item.Country_Name }}" {% if item.Country_Name == form.country %}selected="selected"{% endif %}> {{ item.Country_Name }} </option>
+                                             {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                         <select class="form-control select2" name ="state" id="selectstate" required  autocomplete="off">
+                                              <option>{{form.state}}</option>
+                                         </select>
+                                    </td>
+                                    <td>
+                                         <select class="form-control select2" name ="city" id="selectcity" required  autocomplete="off">
+                                                 <option>{{form.city}}</option>
+                                         </select>
+                                    </td>
+                                    <td>
+                                         <select class="form-control select2" name ="zone" required  autocomplete="off">
+                                             <option ></option>
+                                             <option value="A">A</option>
+                                             <option value="B">B</option>
+                                             <option value="C">C</option>
+                                             <option value="D">D</option>
+                                         </select>
+                                    </td>
+
+
+                                </tr>
+                            <tr>
+                                    <th>Client</th>
+                                    <th>Unit</th>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Service</th>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                         <select class="form-control select2" name ="client" id="selectclient" required  autocomplete="off">
+                                             <option></option>
+                                             {% for item in client %}
+                                                 <option val="{{ item.Client_Name }}" {% if item.Client_Name == form.client %}selected="selected"{% endif %}> {{ item.Client_Name }} </option>
+                                             {% endfor %}
+                                         </select>
+                                    </td>
+                                    <td>
+                                         <select class="form-control select2" name ="unit" required   id="selectunit" autocomplete="off" required>
+                                              <option>{{form.unit}}</option>
+                                         </select>
+                                    </td>
+                                    <td colspan="2">
+                                        <div class="position-relative" id="datepicker4">
+                                                    <input type="text" class="form-control" data-date-container='#datepicker4'  autocomplete="off" data-provide="datepicker"
+                                                    data-date-format="MM-yyyy" data-date-min-view-mode="1" data-date-autoclose="true" name="date_month" value="{{form.date_month}}" required>
+                                       </div>
+                                    </td>
+
+                                    <td>
+                                         <select class="form-control select2" name ="service" required  autocomplete="off" required>
+                                            <option value="Terminal_Support_Service">Terminal Support Service</option>
+                                         <option value="Terminal_Nonvoice_Service">Terminal Nonvoice Service</option>
+                                         </select>
+                                    </td>
+
+                                </tr>
+
+
+                        </table>
+                    </div>
+                    <hr>
+                    <center>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-md" name="GetData" value="GetData">GetData</button>
+
+                        <a href="{% url 'Monthly_Attendance' %}" class="btn btn-danger w-md">RESET</a>
+
+                    </div>
+
+                        </center>
+
+                </form>
+
+
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+     </div>
+    </div>
+    {% if em_mon_report %}
+        <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Employee List</h2>
+                    <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead>
+                        <tr>
+                            <th>S.NO</th>
+                            <th>UNIT NAME</th>
+                            <th>EMP-CODE</th>
+                            <th>EMP-NAME</th>
+                            <th>FATHER NAME</th>
+                            <th>AC-NO/BANK NAME</th>
+                            <th>DESIGNATION</th>
+                            <th>DAYS PRESENT</th>
+                            <th>OT HRS</th>
+                            <th>EXTRA DUTIES</th>
+                            <th>BASIC RATE</th>
+                            <th>ADVANCE</th>
+                            <th>PT</th>
+                            <th>TDS</th>
+                            <th>OTHER DEDUCTION</th>
+                          <th>EDIT</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {%for details in em_mon_report %}
+                        <tr>
+                            <td>{{details.ID }}</td>
+                            <td>{{details.UNIT_NAME }}</td>
+                            <td>{{details.EMP_CODE }}</td>
+                            <td>{{details.EMP_NAME }}</td>
+                            <td>{{details.FATHER_NAME }}</td>
+                            <td>{{details.ACC_NO }}</td>
+                            <td>{{details.DESIGNATION }}</td>
+                            <td>{{details.DAYS_PRESENT }}</td>
+                            <td>{{details.OVERTIME }}</td>
+                            <td>{{details.SHIFT_ALLOWANCES_HRS }}</td>
+                            <td>{{details.BASIC }}</td>
+                            <td>{{details.SALARY_ADVANCE }}</td>
+                            <td>{{details.PROFESSIONAL_TAX }}</td>
+                            <td>{{details.INCOME_TAX }}</td>
+                            <td>{{details.OTHER_DEDUCTION }}</td>
+                            <td><a href="{% url 'Monthly_Attendance_Edit' %}?secure={{details.EMP_CODE }}&year={{form.date_month}}" target="_blank" title="Edit"><i class="fas fa-pencil-alt"></i>EDIT</a></td>
+
+                        </tr>
+                        {%endfor%}
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+    {% endif %}
+
+    <center>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                     <!-- sample modal content -->
+                        <div id="exampleModalFullscreen" class="modal fade" tabindex="-1" aria-labelledby="#exampleModalFullscreenLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-fullscreen">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalFullscreenLabel">Fullscreen Modal Heading</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Overflowing text to show scroll behavior</h5>
+                                        <p>Cras mattis consectetur purus sit amet fermentum.
+                                            Cras justo odio, dapibus ac facilisis in,
+                                            egestas eget quam. Morbi leo risus, porta ac
+                                            consectetur ac, vestibulum at eros.</p>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">SAVE</button>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light">EDIT</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                </div>
+            </div>
+        </div>
+    </div>
+    </center>
+    <!-- end row -->
+
+{% endblock %}

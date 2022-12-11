@@ -1,0 +1,99 @@
+{% extends 'Base.html' %}
+{% block content %}
+<style>
+    .img
+    {
+      width:120px;
+      height:120px;
+    }
+</style>
+
+{% load static %}
+<div class="row">
+        <div class="col-12">
+            <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f;text-align: center;">Attendance Setting</h4></u>
+        </div>
+</div>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Manage the Software of Attendance Machine [ZKTeco F18]</h4></u>
+                    </div>
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <label>Step 01: Open and start the Attendance Machine Software</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step1.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <label>Step 02: Click the OK Button</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step2.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><br><label>Step 03: Select the Device and Click the Connect in the software</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step3.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><br><label>Step 04: Create All Employee Records like Enrollment or Registration</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step4.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><br><label>Step 05: After recorded, must be Upload and Download from left Button</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step5.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><br><label>Step 06: Select the report for calculatation by date wise.</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step6.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><br><label>Step 07: View the attendance reports by the dates</label><br>
+                    <img style="width:100%; height:350px;" src="{% static 'assets/images/attendance/step7.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><br><label>Step 08: Export the Attendance Report</label><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step8.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><label>Step 09: Save the Attendance Report in your PC</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step9.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-6">
+                    <br><label>Step 10: Export the Attendance Report in your HRM Software</label><br><br>
+                    <img style="width:100%; height:420px;" src="{% static 'assets/images/attendance/step10.jpg' %}" class="img-responsive">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Manage the Device of Attendance Machine</h4></u>
+                    </div>
+                </div>
+                <div  class="mb-0 col-lg-4">
+                    <label>Step 01: Setup the Attendance Machine by IP</label><br>
+                    <img style="width:100%; height:89%;" src="{% static 'assets/images/attendance/mechine1.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-4">
+                    <label>Step 02: Select the User Management in the Machine</label><br><br>
+                    <img style="width:100%; height:89%;" src="{% static 'assets/images/attendance/mechine2.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-4">
+                    <label>Step 03: Go to the All User Management</label><br><br>
+                    <img style="width:100%; height:89%;" src="{% static 'assets/images/attendance/mechine3.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-4">
+                    <br><label>Step 04: Select the One User and go</label><br>
+                    <img style="width:100%; height:89%;" src="{% static 'assets/images/attendance/mechine5.jpg' %}" class="img-responsive">
+                </div>
+                <div  class="mb-0 col-lg-4">
+                    <br><label>Step 05: Select the finger for print by the user</label><br>
+                    <img style="width:100%; height:89%;" src="{% static 'assets/images/attendance/mechine6.jpg' %}" class="img-responsive">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

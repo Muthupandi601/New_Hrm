@@ -1,0 +1,148 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">Report Employee</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+       {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form  method="POST" >
+                    {% csrf_token %}
+                 <div class="row row-cols-lg-auto g-3 align-items-center">
+                     <div  class="mb-0 col-lg-4">
+                        <label for="example-text-input" >COUNTRY</label><code>*</code>
+                        <div class="col-md-10">
+                           <select class="form-control select2" name ="country" id="selectcountries" required  autocomplete="off">
+                             <option></option>
+                             {% for item in countries %}
+                                 <option val="{{ item.Country_Name }}" {% if item.Country_Name == form.country %}selected="selected"{% endif %}> {{ item.Country_Name }} </option>
+                             {% endfor %}
+                           </select>
+                        </div>
+                     </div>
+                     <div  class="mb-0 col-lg-4">
+                        <label for="example-text-input" >STATE</label><code>*</code>
+                        <div class="col-md-10">
+                            <select class="form-control select2" name ="state" required   id="selectstate" autocomplete="off" required>
+                              <option></option>
+                            </select>
+                        </div>
+                     </div>
+                     <div  class="mb-0 col-lg-4">
+                        <label for="example-text-input" >DISTRICT</label><code>*</code>
+                        <div class="col-md-10">
+                            <select class="form-control select2" name ="city" required   id="selectcity" autocomplete="off" required>
+                              <option></option>
+                            </select>
+                        </div>
+                     </div>
+                     <div  class="mb-0 col-lg-4">
+                        <label for="example-text-input" >Client</label><code>*</code>
+                        <div class="col-md-10">
+                           <select class="form-control select2" name ="client" id="selectclient" required  autocomplete="off">
+                             <option></option>
+                             {% for item in client %}
+                                 <option val="{{ item.Client_Name }}" > {{ item.Client_Name }} </option>
+                             {% endfor %}
+                           </select>
+                        </div>
+                     </div>
+                     <div  class="mb-0 col-lg-4">
+                        <label for="example-text-input" >Unit</label><code>*</code>
+                        <div class="col-md-10">
+                            <select class="form-control select2" name ="unit" required   id="selectunit" autocomplete="off" required>
+                              <option></option>
+                            </select>
+                        </div>
+                     </div>
+
+                 </div>
+                <br>
+                 <br>
+                <hr>
+                    <center>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-danger w-md" name="GetData" value="GetData">GetData</button>
+                    </div>
+                    </center>
+                </form>
+
+
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+    {% if em_mon_report %}
+        <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Employee List</h2>
+                    <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead>
+                        <tr>
+                            <th>S.NO</th>
+                            <th>EMP-CODE</th>
+                            <th>EMP-NAME</th>
+                            <th>FATHER NAME</th>
+                            <th>DESIGNATION</th>
+                            <th>CLIENT NAME</th>
+                            <th>UNIT NAME</th>
+                            <th>DATE OF BIRTH</th>
+                            <th>DATE OF RECRUITMENT</th>
+                            <th>BLOOD GROUP</th>
+                            <th>POLICE VERIFICATION RETURN DATE/REF.NO</th>
+                            <th>MOBILE NO</th>
+
+
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                        {%for details in em_mon_report %}
+                        <tr>
+                            <td>{{details.id }}</td>
+                            <td>{{details.emp_code }}</td>
+                            <td>{{details.emp_name }}</td>
+                            <td>{{details.father_name }}</td>
+                            <td>{{details.design }}</td>
+                            <td>{{details.client_name }}</td>
+                            <td>{{details.unit }}</td>
+                            <td>{{details.dob }}</td>
+                            <td>{{details.join_date }}</td>
+                            <td>{{details.blood_grp }}</td>
+                            <td>{{details.pv_date }}</td>
+                            <td>{{details.mobile }}</td>
+                        </tr>
+                        {%endfor%}
+                       </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+    {% endif %}
+    <!-- end row -->
+
+{% endblock %}

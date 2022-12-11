@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+    
+        <!-- Bootstrap CSS -->
+      
+        <title>Fees Student {{ student.admno}}</title>
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+
+            table, th ,td{
+                border:1px solid black;
+                word-wrap:break-word;
+                text-align:center !important;
+                }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+               
+                <p class='title'>Fees Slip Student {{student.admno}}</p>
+                
+            </div>
+        <div>
+        <div class='details'>
+            <div style="margin-top: 0px;">
+                {%if student and fees_collection %}
+                    
+                <table style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Receipt Number</th>
+                        <th>Admno</th>
+                        <th>First Name</th>
+                        <th>Class</th>
+                        <th>Fees Type</th>
+                        <th>Fees Value</th> 
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{fees_collection.id}}</td>
+                            <th>{{student.admno}}</th>
+                            <td>{{student.fname}}</td>
+                            <td>{{student.class_student}}</td>
+                            <td>
+                            {%if fees_collection.type %}
+                                {%for type in fees_collection.type %}
+                                <span>{{type}},</span>
+                                {%endfor %}
+                             {%else%}   
+                                NA
+                                {%endif%}
+                            </td>
+                            <td>{{fees_collection.value}}/-</td>
+                        
+                        </tr>
+                    </tbody>
+                </table>   
+                        <p>Your fees is Rupees {{num2words}} only</p>    
+
+                        <!-- {{student.section}} -->
+                        <br/>
+                    
+                {%else%}
+                    <h1>No Search</h1>
+                {%endif%}
+            </div>
+            <hr class='hrItem' />
+        </div>
+    </div>
+    </body>
+</html>

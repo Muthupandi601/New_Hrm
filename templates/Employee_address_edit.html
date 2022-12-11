@@ -1,0 +1,242 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">EMPLOYEE COMMUNICATION EDIT</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+        {% if 'UPDATE_EMP_PERSONAL_DETAILS' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.UPDATE_EMP_ADDRESS_DETAILS }}
+
+             </div>
+        {% endif %}
+
+        {% block update_messages %}
+             {% if update_messages %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ update_messages }}
+                </div>
+             {% endif %}
+        {% endblock %}
+
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-check-label">Search Employee:</label>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="search_type" id="inlineRadio1" value="emp_no" required>
+                            <label class="form-check-label" for="inlineRadio1">Emp Code.</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="search_type" id="inlineRadio2" value="emp_name" required>
+                            <label class="form-check-label" for="inlineRadio2">Employee Name.</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                           <input type="text" class="form-control" id="inlineFormInputGroupUsername" name ="emp_code" placeholder="Enter Emp Code" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-md" name="GetData" value="GetData">GetData</button>
+                    </div>
+                </form>
+                <hr>
+                <form method="post" class="custom-validation" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {%for details in data %}
+                     <div class="row row-cols-lg-auto g-3 align-items-center">
+
+                            <div class="mb-1 col-lg-6">
+                                <b>Employee-Code : </b> <label> &nbsp;{{details.NEW_EMP.EMP_CODE}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6">
+                                <b>Employee Name : </b> <label> &nbsp; {{details.NEW_EMP.EMP_NAME}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>Father Name : </b> <label> &nbsp; {{details.EMP_PER.FATHER_NAME}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6">
+                                <b>Unit Name : </b> <label> &nbsp; {{details.EMP_COMPANY.UNIT}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>Contact No : </b> <label> &nbsp; {{details.NEW_EMP.MOBILE_NO}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6" no select>
+                                <b>Age : </b> <label> &nbsp; {{details.NEW_EMP.AGE}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>Date Of Joining : </b> <label> &nbsp; {{details.EMP_COMPANY.DATE_OF_JOIN}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6" no select>
+                                <b>District : </b> <label> &nbsp; {{details.EMP_COMPANY.DISTRICT}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>STATE : </b> <label> &nbsp; {{details.EMP_COMPANY.STATE}}</label>
+                            </div>
+
+                    </div>
+                     <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>ADDRESS : </b> <label> &nbsp; {{details.EMP_COMM.ADDRESS}}</label>
+                            </div>
+
+                    </div>
+                    <hr>
+                 <h4  class="card-title mb-4" style="color: red;">PERSENT ADDRESS :</h4>
+                     <input  type="text" name="emp_hidden_code" value="{{details.EMP_COMPANY.EMP_CODE}}" hidden>
+                        <div class="row row-cols-lg-auto g-3  align-items-center">
+                            <div  class="mb-0 col-lg-4">
+                                <label>ADDRESS</label><code>*</code>
+                                <div class="col-md-10">
+                                    <textarea  class="form-control" maxlength="500" name ="address" rows="3"  autocomplete="off"required>{{details.EMP_COMM.ADDRESS}}</textarea>
+                                </div>
+                            </div>
+                            <div  class="mb-0 col-lg-4">
+                                <label>STREET</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" value="{{details.EMP_COMM.STREET}}"  name="street" autocomplete="off" required>
+                                </div>
+                            </div>
+                            <div  class="mb-0 col-lg-4">
+                                <label>DISTRICT</label><code>*</code>
+                                <select class="form-control select2" name="district" required>
+                                     <option value="chennai" {% if details.EMP_COMM.DISTRICT == "chennai" %}selected="selected"{% endif %}>CHENNAI</option>
+                                    <option value="madurai" {% if details.EMP_COMM.DISTRICT == "madurai" %}selected="selected"{% endif %}>MADURAI</option>
+                                   <option value="kongunadu" {% if details.EMP_COMM.DISTRICT == "kongunadu" %}selected="selected"{% endif %}>KONGU NADU</option>
+                                </select>
+                            </div>
+                            <div  class="mb-0 col-lg-4">
+                                <label>PIN-CODE</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="number" value="{{details.EMP_COMM.PINCODE}}"  autocomplete="off" name="pin_code" required>
+                                </div>
+                            </div>
+                            <div  class="mb-0 col-lg-4">
+                                <label>TELEPHONE</label ><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="number" value="{{details.EMP_COMM.TELEPHONE}}"  name="telephone"  autocomplete="off" required>
+                                </div>
+                            </div>
+                            <div  class="mb-0 col-lg-4">
+                                <label>MOBILE NO</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="number" value="{{details.EMP_COMM.MOBILE_NO}}"  name="mobile_no"  autocomplete="off" required>
+                                </div>
+                            </div>
+                             <div  class="mb-0 col-lg-4">
+                                <label>EMAIL ID</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="email" value="{{details.EMP_COMM.EMAIL_ID}}"  name="email_id" autocomplete="off" required>
+                                </div>
+                            </div>
+                            <div  class="mb-0 col-lg-4">
+                                <label>DURATION</label><code>*</code>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                        data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="duration" data-date-autoclose="true" autocomplete="off"  value="{{details.EMP_COMM.DURATION}}" required>
+
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div><!-- input-group -->
+                            </div>
+                             <div  class="mb-0 col-lg-4">
+                                <label>STATE</label><code>*</code>
+                                <select class="form-control " name="state" required>
+                                    <option value="tamil_nadu" {% if details.EMP_COMM.DISTRICT == "tamil_nadu" %}selected="selected"{% endif %}>TAMILNADU</option>
+                                    <option value="kerala" {% if details.EMP_COMM.DISTRICT == "kerala" %}selected="selected"{% endif %}>KERALA</option>
+                                    <option value="delhi" {% if details.EMP_COMM.DISTRICT == "delhi" %}selected="selected"{% endif %}>DELHI</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    <BR>
+                    <input type="checkbox" id="switch3" switch="bool" name="permanet_address" checked />
+                    <label for="switch3" data-on-label="Yes" data-off-label="No" ></label> Same As Above
+                    <hr>
+                    <h4  class="card-title mb-4" style="color: red;">PERMANENT ADDRESS :</h4>
+                         <div class="row row-cols-lg-auto g-3 align-items-center">
+                             <div  class="mb-3 col-lg-4">
+                                <label>ADDRESS</label><code>*</code>
+                                <div class="col-md-10">
+                                    <textarea id="textarea" class="form-control" maxlength="500" name ="per_address" rows="3" autocomplete="off">{{details.EMP_COMM.PER_ADDRESS}}</textarea>
+                                </div>
+                            </div>
+                            <div  class="mb-3 col-lg-4">
+                                <label>STREET</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" value="{{details.EMP_COMM.PER_STREET}}"  name="per_street" autocomplete="off">
+                                </div>
+                            </div>
+                            <div  class="mb-3 col-lg-4">
+                                <label>DISTRICT</label><code>*</code>
+                                <select class="form-control " name="per_district" >
+                                    <option value="chennai" {% if details.EMP_COMM.PER_DISTRICT == "chennai" %}selected="selected"{% endif %}>CHENNAI</option>
+                                    <option value="madurai" {% if details.EMP_COMM.PER_DISTRICT == "madurai" %}selected="selected"{% endif %}>MADURAI</option>
+                                    <option value="kongunadu" {% if details.EMP_COMM.PER_DISTRICT == "kongunadu" %}selected="selected"{% endif %}>KONGU NADU</option>
+                                </select>
+                            </div>
+                            <div  class="mb-3 col-lg-4">
+                                <label>DURATION</label><code>*</code>
+                                <div class="input-group" id="datepicker1">
+                                    <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                        data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="per_duration"  value="{{details.EMP_COMM.PER_DURATION}}" data-date-autoclose="true" autocomplete="off"  >
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div><!-- input-group -->
+                            </div>
+                            <div  class="mb-3 col-lg-4">
+                                <label>PIN-CODE</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="number" value="{{details.EMP_COMM.PER_PINCODE}}"  name="per_pin_code" autocomplete="off">
+                                </div>
+                            </div>
+
+                             <div  class="mb-3 col-lg-4">
+                                <label>STATE</label><code>*</code>
+                                <select class="form-control " name="per_state" >
+                                    <option value="tamil_nadu" {% if details.EMP_COMM.PER_STATE == "tamil_nadu" %}selected="selected"{% endif %}>TAMILNADU</option>
+                                    <option value="kerala" {% if details.EMP_COMM.PER_STATE == "kerala" %}selected="selected"{% endif %}>KERALA</option>
+                                    <option value="delhi" {% if details.EMP_COMM.PER_STATE == "delhi" %}selected="selected"{% endif %}>DELHI</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    <br>
+                    <center>
+                        <div class="center">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light" name="GetData" value="UPDATE">
+                                UPDATE
+                            </button>
+                        </div>
+                    </center>
+                {%endfor%}
+                </form>
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+
+    <!-- end row -->
+
+{% endblock %}

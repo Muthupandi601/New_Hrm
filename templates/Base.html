@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+    {% include "include/css.html" %}
+
+   <style >
+     .zoom {
+          zoom: 0.9; /* all browsers */
+         -moz-transform: scale(0.9); /* Firefox */
+      }
+</style>
+    <body data-topbar="light" data-layout="horizontal" data-layout-size="boxed" data-layout-scrollable="false" style="background-color:#f0f0fa;" onLoad="initClock()" class="zoom">
+   <!-- <body data-topbar="dark" data-layout="horizontal" data-layout-size="boxed" data-layout-scrollable="true" onLoad="initClock()">
+    -->
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+            {% include  "include/header.html" %}
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+             {% include  "include/Menu.html" %}
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                    {% block content %}
+                        replace me
+                    {% endblock %}
+                    </div> <!-- container-fluid -->
+                </div>
+                <!-- End Page-content -->
+                {% include  "include/footer.html" %}
+            </div>
+            <!-- end main content-->
+
+        </div>
+        <!-- END layout-wrapper -->
+
+        <!-- Right bar overlay-->
+
+        <div class="rightbar-overlay">
+
+        </div>
+    <div>
+        {% include  "include/script.html" %}
+    </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,352 @@
+ <style>
+     .columns-2
+     {
+        width:480px;
+     }
+ </style>
+ <div class="topnav">
+     <div class="container-fluid">
+         <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
+             <div class="collapse navbar-collapse" id="topnav-menu-content">
+                 <ul class="navbar-nav">
+                     <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle arrow-none" href="{% url 'index' %}" id="topnav-dashboard" role="button">
+                             <i class="bx bx-home-circle me-2"></i><span>Dashboard</span>
+                         </a>
+                     </li>
+                     <li class="nav-item dropdown has-mega-menu" style="position:static;">
+                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                             <i class="bx bx-collection me-2"></i>
+                             <span> Employee Management</span><div class="arrow-down"></div>
+                         </a>
+                         <div class="dropdown-menu" style="width:100%">
+                             <div class="px-0 container">
+                                 <div class="row">
+                                     <div class="col-md-3">
+                                         <h6><u><b>EMPLOYEE RECRUITMENT:</b></u></h6>
+                                         <a class="dropdown-item" href="{% url 'New_Employee_Reg' %}"><i class="fa fa-circle" aria-hidden="true"></i> New Employee</a>
+                                         <a class="dropdown-item" href="{% url 'Employees_Management' %}"><i class="fa fa-circle" aria-hidden="true"></i> Edit Employees Details</a>
+                                         <!--<a  class="dropdown-item" href="{% url 'Employee_Address' %}"><i class="fa fa-circle" aria-hidden="true"></i> Edit Communication Detail</a>
+                                         <a class="dropdown-item" href="{% url 'Employee_Police_Verification' %}"><i class="fa fa-circle" aria-hidden="true"></i> Edit Police Verification</a>-->
+                                         <a class="dropdown-item" href="{% url 'export_file' %}"><i class="fa fa-circle" aria-hidden="true"></i> Bulk Employee Add</a>
+                                         <!--<a class="dropdown-item" href="{% url 'New_Customer_Reg' %}"><i class="fa fa-circle" aria-hidden="true"></i> New Customer</a>
+                                         <a class="dropdown-item" href="{% url 'Manage_Customer' %}"><i class="fa fa-circle" aria-hidden="true"></i> Manage Customer</a>-->
+                                     </div>
+                                     <div class="col-md-3">
+                                         <h6><b><u>EMPLOYEE SALARY DETAILS:</u></b></h6>
+                                         <a class="dropdown-item" href="{% url 'Employee_Salary_Details' %}"><i class="fa fa-circle" aria-hidden="true"></i> Pay Slip</a>
+                                         <a class="dropdown-item" href="{% url 'New_Increment' %}"><i class="fa fa-circle" aria-hidden="true"></i> New Increment List</a>
+                                         <a class="dropdown-item" href="{% url 'Salary_Sheet' %}"><i class="fa fa-circle" aria-hidden="true"></i> Salary Sheet</a>
+                                         <a class="dropdown-item" href="{% url 'New_Bonus' %}"><i class="fa fa-circle" aria-hidden="true"></i> Bonus Management</a>
+                                         <a class="dropdown-item" href="{% url 'Advance_List' %}"><i class="fa fa-circle" aria-hidden="true"></i> Advance Management</a>
+                                         <!--<a class="dropdown-item" href="{% url 'Loan_Apply' %}"><i class="fa fa-star" aria-hidden="true"></i> Loan Apply</a>-->
+                                         <a class="dropdown-item" href="{% url 'Loan_List' %}"><i class="fa fa-circle" aria-hidden="true"></i> Loan Management</a>
+                                     </div>
+                                     <div class="col-md-3">
+                                         <h6><b><u>EMPLOYEE OTHER DETAILS:</u></b></h6>
+                                         <a class="dropdown-item" href="{% url 'New_Award' %}"><i class="fa fa-circle" aria-hidden="true"></i> New Award</a>
+                                         <a class="dropdown-item" href="{% url 'Award_List' %}"><i class="fa fa-circle" aria-hidden="true"></i> Award List</a>
+                                         <a class="dropdown-item" href="{% url 'Employee_Certificate' %}"><i class="fa fa-circle" aria-hidden="true"></i> Add Certificate</a>
+                                         <a class="dropdown-item" href="{% url 'Certificate_List' %}"><i class="fa fa-circle" aria-hidden="true"></i> Certificate List</a>
+                                         <a class="dropdown-item" href="{% url 'Add_Expense' %}"><i class="fa fa-circle" aria-hidden="true"></i> Add Expense</a>
+                                         <a class="dropdown-item" href="{% url 'Expense_List' %}"><i class="fa fa-circle" aria-hidden="true"></i> Expense List</a>
+                                     </div>
+                                     <div class="col-md-3">
+                                         <h6><b><u>EMPLOYEE ATTENDANCE DETAILS:</u></b></h6>
+                                         <!--<a class="dropdown-item" href="{% url 'Monthly_Attendance' %}"><i class="fa fa-star" aria-hidden="true"></i> Monthly Attendance(client)</a>
+                                         <a class="dropdown-item" href="{% url 'Salary_Slip' %}"><i class="fa fa-star" aria-hidden="true"></i> View Salary Slip</a>-->
+                                         <a class="dropdown-item" href="{% url 'bulk_emp_attendance' %}"><i class="fa fa-circle" aria-hidden="true"></i> Bulk Employee Attendance</a>
+                                         <a class="dropdown-item" href="{% url 'Month_Attendance_Report' %}"><i class="fa fa-circle" aria-hidden="true"></i> Monthly Attendance Report</a>
+                                         <a class="dropdown-item" href="{% url 'Manuel_Setting' %}"><i class="fa fa-circle" aria-hidden="true"></i> Manuel Setting</a>
+                                         <a class="dropdown-item" href="{% url 'DailY_Attendance_Manegment' %}"><i class="fa fa-circle" aria-hidden="true"></i> Attendance Management</a>
+                                         <a class="dropdown-item" href="{% url 'Attendance_Report' %}"><i class="fa fa-circle" aria-hidden="true"></i> Attendance Report</a>
+                                         <a class="dropdown-item" href="{% url 'New_Application_List' %}"><i class="fa fa-circle" aria-hidden="true"></i> New Leave Application</a>
+                                         <a class="dropdown-item" href="{% url 'Leave_Application_List' %}"><i class="fa fa-circle" aria-hidden="true"></i> Leave Application List</a>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </li>
+								<!--<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#"  role="button">
+                                        <i class="bx bx-collection me-2"></i><span key="t-components">Employee Attendance</span> <div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-components">
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Monthly_Attendance' %}"
+                                                role="button">
+                                                <span key="t-forms">Monthly Attendance(client)</span>
+											</a>
+											<a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Salary_Slip' %}"
+                                                role="button">
+                                                <span key="t-forms">View Salary Slip</span>
+                                            </a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'bulk_emp_attendance' %}"
+                                                role="button">
+                                                <span key="t-forms">Bulk Employee Attendance</span>
+                                            </a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Manuel_Setting' %}"
+                                                role="button">
+                                                <span>Manuel Setting</span>
+                                            </a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'DailY_Attendance_Manegment' %}"
+                                                role="button">
+                                                <span>Attendance Management</span>
+                                            </a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Attendance_Report' %}"
+                                                role="button">
+                                                <span key="t-forms">Attendance Report</span>
+                                            </a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'New_Application_List' %}"
+                                                role="button">
+                                                <span key="t-forms">New Leave Application</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Leave_Application_List' %}"
+                                                role="button">
+                                                <span key="t-forms">Leave Application List</span>
+											</a>
+                                        </div>
+                                    </div>
+                                </li>-->
+                     <li class="dropdown">
+                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                             <i class="bx bx-collection me-2"></i>
+                             <span> Admin Management</span><div class="arrow-down"></div>
+                         </a>
+                         <ul class="dropdown-menu multi-column columns-2">
+                             <div class="row">
+                                 <div class="col-md-1">
+
+                                 </div>
+                                 <div class="col-md-5">
+                                     <h6><b><u>OFFICE MANAGEMENT:</u></b></h6>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Add_Notice' %}"
+                                                role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> Add Notice</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Notice_List' %}"
+                                                role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> Notice List</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Add_Holidays' %}"
+                                                role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> Add Holidays</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Holidays_List' %}"
+                                                role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> Holidays List</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'File_Management' %}"
+                                                role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> File Management</span>
+                                     </a>
+                                 </div>
+                                 <div class="col-md-5">
+                                     <h6><b><u>OFFICE REPORTS:</u></b></h6>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_A' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM A</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_B' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM B</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_C' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM C</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_D' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM D (Bank Statement)</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_XXIII' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM E</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_PF' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM PF</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_ESI' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM ESI</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_PT' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM PT</span>
+                                     </a>
+                                     <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Form_LWF' %}"
+                                        role="button">
+                                         <span><i class="fa fa-circle" aria-hidden="true"></i> FORM LWF</span>
+                                     </a>
+                                 </div>
+                             </div>
+                         </ul>
+                     </li>
+                     {% if 'Admin_Check' in request.session  %}
+                     <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle arrow-none" href="#"  role="button">
+                             <i class="bx bx-collection me-2"></i><span>Configuration</span> <div class="arrow-down"></div>
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="topnav-components">
+                             <div class="dropdown">
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Leave_Category_List' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Leave Category List</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Expense_Category_List' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Expense Category List</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Client_Type_List' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Client Type List</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Award_Category_List' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Award Category List</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Designation_List' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Designation List</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Event_List' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Personal Event List</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Attendance_Setting' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Attendance Setting</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Set_Working_Day' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Set Working Day</span>
+                                 </a>
+                                 <!--<a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Country_List' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Country List</span>
+                                 </a>-->
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Client_Details' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Client List</span>
+                                 </a>
+                                 <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Add_Bank' %}"
+                                                role="button">
+                                     <span><i class="fa fa-circle" aria-hidden="true"></i> Bank List</span>
+                                 </a>
+                             </div>
+                         </div>
+                     </li>
+                     {% endif %}
+
+                                <!--<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button">
+                                        <i class="bx bx-collection me-2"></i><span key="t-components">Leave Management</span> <div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-components">
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Add_Leave_Category' %}"
+                                                role="button">
+                                                <span key="t-forms">New Leave Category</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Leave_Category_List' %}"
+                                                role="button">
+                                                <span key="t-forms">Leave Category List</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'New_Application_List' %}"
+                                                role="button">
+                                                <span key="t-forms">New Leave Application</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Leave_Application_List' %}"
+                                                role="button">
+                                                <span key="t-forms">Leave Application List</span>
+											</a>
+                                        </div>
+                                    </div>
+                                </li>-->
+                                <!--<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="onetopnav-compnts" role="button">
+                                        <i class="bx bx-collection me-2"></i><span key="t-components"> Salary Details</span> <div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-components">
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Employee_Salary_Details' %}"
+                                                role="button">
+                                                <span key="t-forms">Employee Salary List</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'New_Increment' %}"
+                                                role="button">
+                                                <span key="t-forms">New Increment List</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Salary_Sheet' %}"
+                                                role="button">
+                                                <span key="t-forms">Salary Sheet</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'New_Bonus' %}"
+                                                role="button">
+                                                <span key="t-forms">Bonus Managment</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Advance_List' %}"
+                                                role="button">
+                                                <span key="t-forms">Advance Managment</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Loan_Apply' %}"
+                                                role="button">
+                                                <span key="t-forms">Loan Apply</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Loan_List' %}"
+                                                role="button">
+                                                <span key="t-forms">Loan Management</span>
+											</a>
+                                        </div>
+                                    </div>
+                                </li>-->
+                                <!--<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-componentsa" role="button">
+                                        <i class="bx bx-collection me-2"></i><span key="t-components"> Expense Details</span> <div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-components">
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Add_Expense' %}"
+                                                role="button">
+                                                <span key="t-forms">Add Expense</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Expense_List' %}"
+                                                role="button">
+                                                <span key="t-forms">Expense List</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Add_Expense_Category' %}"
+                                                role="button">
+                                                <span key="t-forms">Add Expense Category</span>
+											</a>
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{% url 'Expense_Category_List' %}"
+                                                role="button">
+                                                <span key="t-forms">Expense Category List</span>
+											</a>
+                                        </div>
+                                    </div>
+                                </li>-->
+                                <!---->
+                             <!-- end page title -->
+                           <!-- { #% if 'Admin_Check' in request.session  %}
+                                 <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button"
+                                    >
+                                        <i class="bx bx-collection me-2"></i><b><span key="t-components" style="color: red">Admin Control</span></b> <div class="arrow-down"></div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="topnav-components">
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{#% url 'Admin_Control' %#}" id="topnav-form"
+                                                role="button">
+                                                <span key="t-forms">Admin Control</span>
+											</a>
+
+                                        </div>
+                                    </div>
+                                </li>
+                           {#% endif %#}-->
+                 </ul>
+             </div>
+         </nav>
+     </div>
+ </div>

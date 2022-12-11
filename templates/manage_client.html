@@ -1,0 +1,60 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+									<div class="box-header with-border">
+
+									  <p align="right">
+                                          <a href="{% url 'New_Customer_Reg' %}">
+                                              <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+                                          </a>
+									  </p>
+									</div>
+
+									<!-- /.box-header -->
+									<div class="box-body">
+										<div class="table-responsive">
+										  <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+											<thead>
+												<tr class="text-dark">
+													<th>NAME</th>
+													<th>CLIENT TYPE</th>
+													<th>PHONE NO</th>
+													<th>ADDRESS</th>
+													<th>ADDED</th>
+													<th>ACTION</th>
+												</tr>
+											</thead>
+											<tbody>
+                                             {%for details in data %}
+                                             <tr>
+                                                 <td>{{details.CLIENT_NAME }}</td>
+                                                 <td>{{details.CLIENT_TYPE }}</td>
+                                                 <td>{{details.CONTACT_NO }}</td>
+                                                 <td>{{details.ADDRESS }}</td>
+                                                 <td>{{details.REG_DATE }}</td>
+                                                 <td>
+													 <a href="{% url 'Edit_Customer_Reg' %}?secure={{details.CLIENT_NAME }}" target="_blank" title="CLICK TO EDIT CUSTOMER DETAILS"><i class="fas fa-edit"></i>EDIT</a>
+													 <a href="{% url 'View_Client' %}?secure={{details.CLIENT_NAME }}" target="_blank" title="CLICK TO PRINT CUSTOMER DETAILS"><i class="fas fa-pencil-alt"></i>VIEW</a>
+												 </td>
+                                             </tr>
+                                             {%endfor%}
+											</tbody>
+										</table>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								  </div>
+								</div>
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends 'Base.html' %}
+{% block content %}
+ {% load static %}
+    <center><h4 style="color: red">{{emp_name}} {{month}}-{{year}} Salary Slip</h4></center>
+      {% for details in client %}
+          <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <b>
+                                <div class="invoice-title" style="background-color: #b2adaf">
+                                    <div class="mb-4">
+                                        <img src="{% static 'assets/images/logo-dark.png' %}" alt="" height="25">
+                                    </div>
+                                      <center>
+                                    <h4  style="text-transform:capitalize;">{{client_name}}</h4>
+                                          {{address}}
+                                      </center>
+                                </div>
+                                <hr>
+                                <center>
+                                    <b>
+                                    <u>PAYSLIP</u>
+                                    </b>
+                                </center>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <address>
+                                            <b><h5>Name  : {{emp_name}}</h5></b>
+                                            <b><h5>Code  : {{emp_code}}</h5></b>
+                                            <b><h5>DOJ  : {{doj}}</h5></b>
+                                            <b><h5>Bank Name : {{bank_name}}</h5></b>
+                                            <b><h5>Account Number  : {{acc_no}}</h5></b>
+                                            <b><h5>IFSC Code : {{ifsc_code}}</h5></b>
+                                        </address>
+                                    </div>
+                                    <div class="col-sm-6 text-sm-end">
+                                        <address class="mt-2 mt-sm-0">
+                                            <b><h5>Month : {{month}}-{{year}}</h5></b>
+                                             <b><h5>Attendance : {{details.DAYS_PRESENT}}</h5></b>
+                                             <b><h5>Extra Shift :{{details.SHIFT_ALLOWANCES_HRS}}  & OT : {{details.OVERTIME_HRS}}</h5></b>
+                                        </address>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                   <div class="col-sm-6">
+                                        <address class="mt-2 mt-sm-0">
+                                            <b><h5>Designation : {{desgin}}</h5></b>
+                                        </address>
+                                    </div>
+                                    <div class="col-sm-6 text-sm-end">
+                                        <address class="mt-2 mt-sm-0">
+                                            <b><h5>UAN NUMBER : {{uan_no}}</h5></b>
+                                        </address>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                   <div class="col-sm-6">
+                                        <address class="mt-2 mt-sm-0">
+                                            <b><h5>Place : </h5></b>
+                                        </address>
+                                    </div>
+                                    <div class="col-sm-6 text-sm-end">
+                                        <address class="mt-2 mt-sm-0">
+                                            <b><h5>ESI Number : {{esic_no}}</h5></b>
+                                        </address>
+                                    </div>
+                                </div>
+                                <div class="py-2 mt-3">
+                                    <h3 class="font-size-15 fw-bold">Order summary</h3>
+                                </div>
+                                <div class="table-responsive" style="border-color: #0b0b0b;">
+                                    <table class="table table-bordered table-nowrap" >
+                                        <thead>
+                                            <tr>
+                                                <th>Earnings.</th>
+                                                <th>Amount</th>
+                                                <th>Deductions</th>
+                                                <th class="text-end">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Fixed Salary</td>
+                                                <td>{{details.FIXED_SALARY}}</td>
+                                                <td>PROVIDENT FUND</td>
+                                                <td>{{details.PROVIDENT_FUND}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Basic Pay</td>
+                                                <td>{{details.BASIC}}</td>
+                                                <td>ESIC</td>
+                                                <td>{{details.ESIC}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>DEARANCE ALLOWANCES</td>
+                                                <td>{{details.DEARANCE_ALLOWANCES}}</td>
+                                                <td>LABOUR WELFARE FUND</td>
+                                                <td>{{details.LABOUR_WELFARE_FUND}}</td>
+                                            </tr>
+                                           <tr>
+                                                <td>SPECIAL ALLOWANCES</td>
+                                                <td>{{details.SPECIAL_ALLOWANCES}}</td>
+                                                <td>PROFESSIONAL TAX</td>
+                                                <td>{{details.PROFESSIONAL_TAX}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>HOUSE RENT ALLOWANCES</td>
+                                                <td>{{details.HOUSE_RENT_ALLOWANCES}}</td>
+                                                 <td>INCOME TAX</td>
+                                                <td>{{details.INCOME_TAX}}</td>
+                                            </tr>
+                                             <tr>
+                                                 <td>CONVEYANCE/TA </td>
+                                                 <td>{{details.CONVEYANCE}}</td>
+                                                 <td>LOAN </td>
+                                                 <td>{{details.LOAN}}</td>
+                                             </tr>
+                                            <tr>
+                                                <td>OTHER ALLOWANCES</td>
+                                                <td>{{details.OTHER_ALLOWANCES}}</td>
+                                                <td>SALARY ADVANCE</td>
+                                                <td>{{details.SALARY_ADVANCE}}</td>
+                                             </tr>
+                                            <tr>
+                                                <td>OVER TIME</td>
+                                                <td>{{details.OVERTIME_AMOUNT}}</td>
+                                                <td>OTHER DEDUCTIONS</td>
+                                                <td>{{details.OTHER_DEDUCTION}}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td>SITE ALLOWANCES</td>
+                                                 <td>{{details.SITE_ALLOWANCES}}</td>
+                                                 <td>UNIFORM DEDUCTIONS</td>
+                                                 <td>{{details.UNIFORM_DEDUCTION}}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td>SHIFT ALLOWANCES</td>
+                                                 <td>{{details.SHIFT_ALLOWANCES_AMOUNT}}</td>
+                                             </tr>
+                                            <tr>
+                                                <td>INCENTIVE</td>
+                                                <td>{{details.INCENTIVE}}</td>
+                                             </tr>
+                                            <tr>
+                                                 <td>LEAVE TRAVEL ALLOWANCES</td>
+                                                 <td>{{details.LEAVE_TRAVEL_ALLOWANCES}}</td>
+                                             </tr>
+                                            <tr>
+                                                <td>MEDICAL ALLOWANCES </td>
+                                                <td>{{details.MEDICAL_ALLOWANCES}}</td>
+                                            </tr>
+                                            <tr>
+                                                 <td>CHILD EDUCATIONS ALLOWANCES</td>
+                                                <td>{{details.CHILD_EDUCATIONS_ALLOWANCES}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>ATTENDANCE BONUS</td>
+                                                <td>{{details.ATTENDANCE_BONUS}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>ATTENDANCE INCENTIVE</td>
+                                                <td>{{details.ATTENDANCE_INCENTIVE}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>MONTHLY BOUNS </td>
+                                                <td>{{details.MONTHLY_BOUNS}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>OTHER INCENTIVE </td>
+                                                <td>{{details.EXTRA_BOUNS}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>MONTHLY LEAVE WAGES</td>
+                                                <td>{{details.MONTHLY_LEAVE_WAGES}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>RELIVER DUTY WAGES</td>
+                                                <td>{{details.RELIVER_DUTY_WAGES}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>ARREARS WAGES</td>
+                                                <td>{{details.ARREARS_WAGES}}</td>
+                                            </tr>
+                                            <tr>
+                                                 <td><h4>Total Earnings</h4></td>
+                                                 <td><h4>{{details.TOTAL_EARN}}</h4></td>
+                                                 <td><h4>Total Deductions</h4></td>
+                                                 <td><h4>{{details.TOTAL_DEDUCATION}}</h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="border-0 text-end">
+                                                    <strong>NET PAY</strong>
+                                                </td>
+                                                <td class="border-0 text-end">
+                                                    <h4 class="m-0">{{details.NET_PAY}}</h4>
+                                                </td>
+                                            </tr>
+                                        <tr>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-print-none">
+                                    <div class="float-end">
+                                        <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1" ONCLICK="printDiv(printable_area)"><i class="fa fa-print"></i></a>
+                                        <a href="javascript: void(0);" class="btn btn-primary w-md waves-effect waves-light">Send</a>
+                                    </div>
+                                </div>
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<script type="text/javascript">
+    function printDiv(printable_area) {
+     var printContents = document.getElementById(printable_area).innerHTML;
+     var originalContents = document.body.innerHTML;
+     document.body.innerHTML = printContents;
+     window.print();
+     document.body.innerHTML = originalContents;
+ }
+</script>
+{%endfor%}
+{% endblock %}

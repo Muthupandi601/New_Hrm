@@ -1,0 +1,91 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<!-- end page title -->
+        {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }} <br> {{ session_client_code }}
+                </div>
+             {% endif %}
+        {% endblock %}
+
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+                <form action="{% url 'New_Customer_Reg' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+									<div class="row">
+										<div  class="mb-0 col-lg-4">
+                                            <label>Client Name</label><code>*</code>
+                                              <input type="text" class="form-control"  name ="client_name" placeholder="Enter Name.." required  autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Email</label><code>*</code>
+                                            <input type="email" class="form-control"  name ="client_email" placeholder="Enter email address.."  required  autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-3 col-lg-4">
+                                            <label>Date Of Birth</label><code>*</code>
+                                            <div class="input-group" id="datepicker1">
+                                                <input type="text" class="form-control" placeholder="yyyy-mm-dd"
+                                                                    data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" name="doj" required >
+
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div><!-- input-group -->
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Contact No</label><code>*</code>
+                                            <input type="tel" class="form-control"  name ="client_ph" placeholder="Enter contact no.." required  autocomplete="off" pattern="[0-9]{10}"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Web</label>
+                                            <input type="text" class="form-control"  name ="web" placeholder="Enter Web.."   autocomplete="off" />
+                                        </div>
+                                        <div  class="mb-3 col-lg-4">
+                                            <label>Gender</label><code>*</code>
+                                            <select class="form-control" name="gender" required>
+                                                <option value="">Select One</option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female  </option>
+                                                <option value="transgender ">Transgender </option>
+                                            </select>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Emergency Contact No((Optional)</label>
+                                            <input type="tel" class="form-control"  name ="emg_ph" placeholder="Enter contact no.."   autocomplete="off" pattern="[0-9]{10}"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Address</label><code>*</code>
+                                            <input type="text" class="form-control"  name ="address" placeholder="Enter address.." required  autocomplete="off"/>
+                                        </div>
+                                        <div  class="mb-0 col-lg-4">
+                                            <label>Client Type</label>
+                                            <select class="form-control select2" name ="client_type" id="selectcountries" required  autocomplete="off">
+                                                <option></option>
+                                                {%for details in data %}
+                                                <option val="{{ details.CLIENT_TYPE }}"> {{ details.CLIENT_TYPE }} </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div style="overflow:auto;">
+                            <div style="float:right;">
+                              <button type="submit" id="prevBtn" class="btn btn-primary waves-effect waves-light " >Submit</button>
+                            </div>
+                        </div>
+								</form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

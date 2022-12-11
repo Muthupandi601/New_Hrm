@@ -1,0 +1,71 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+{% load static %}
+ {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }}
+                </div>
+             {% endif %}
+        {% endblock %}
+{% ifequal err_count '1' %}
+<div class="alert alert-danger" role="alert">
+    {{ error }}
+</div>
+{% endifequal %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="box-header with-border">
+                      <p align="right">
+                          <a href="{% url 'Add_Leave_Category' %}">
+                              <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+                          </a>
+                      </p>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive">
+                          <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th>SL#</th>
+                                    <th>CATEGORY NAME</th>
+                                    <th>CATEGORY DESCRIPTION</th>
+                                    <th>ADDED DATE</th>
+                                    <th>STATUS</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {%for details in data %}
+                             <tr>
+                                 <td>{{details.ID }}</td>
+                                 <td>{{details.CATEGORY_NAME }}</td>
+                                 <td>{{details.CATEGORY_DESCRIPTION}}</td>
+                                 <td>{{details.ADDED_DATE}}</td>
+                                 <td>{{details.STATUS }}</td>
+                                 <td>
+                                     <a href="{% url 'Edit_Leave_Category' %}?secure={{details.CATEGORY_NAME }}" ><i class="fas fa-edit"></i>EDIT</a>
+                                 </td>
+                             </tr>
+                            {%endfor%}
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<!-- start page title -->
+{% load static %}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Bulk Employee Add</h4></u>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <hr>
+                <a class="nav-link dropdown-toggle arrow-none" href="{% url 'sample_emp_format' %}" id="topnav-components" role="button">
+                    <i class="bx bx-collection me-2"></i>
+                    <span key="t-components">sample format Download</span>
+                </a>
+                <u>
+                    <h4 class="mb-sm-0 font-size-18" style="color: #d20f0f"></h4>
+                </u>
+                <b style="color:green">{{insert}}</b>
+                <br>
+                <b style="color:red">{{not_insert}}</b>
+                <br>
+                <br>
+                <label>File</label><code>*</code>
+                <input type="file" name="myfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                <button type="submit">Upload excel file</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+{% load static %}
+ {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }} <br> {{ session_client_code }}
+                </div>
+             {% endif %}
+        {% endblock %}
+{% ifequal err_count '1' %}
+<div class="alert alert-danger" role="alert">
+    {{ err_msg }}
+</div>
+{% endifequal %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="box-header with-border">
+                        <p align="right">
+                            <a href="{% url 'Add_Advance' %}">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+                                <thead>
+                                <tr class="text-dark">
+                                    <th>CODE</th>
+                                    <th>NAME</th>
+                                    <th>DESIGNATION</th>
+                                    <th>ADVANCE AMOUNT</th>
+                                    <th>GIVEN AMOUNT</th>
+                                    <th>REMAINING AMOUNT</th>
+                                    <th>DATE ADDED</th>
+                                    <th>GIVING AMOUNT</th>
+                                    <th>LAST ADVANCE UPDATED</th>
+                                    <th>ACTION</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {%for details in data %}
+                                <tr>
+                                    <td>{{details.EMP_CODE }}</td>
+                                    <td>{{details.EMP_NAME }}</td>
+                                    <td>{{details.DESIGNATION }}</td>
+                                    <td>{{details.ADVANCE_AMOUNT}}</td>
+                                    <td>{{details.GIVEN_AMOUNT}}</td>
+                                    <td>{{details.REMAINING_AMOUNT}}</td>
+                                    <td>{{details.ADVANCE_ADDED_DATE }}</td>
+                                    <td>{{details.GIVING_AMOUNT }}</td>
+                                    <td>{{details.LAST_ADVANCE_UPDATED }}</td>
+                                    <td>
+                                        <a href="{% url 'Edit_Advance' %}?secure={{details.EMP_CODE }}"  title="CLICK TO EDIT ADVANCE DETAILS"><i class="fas fa-edit"></i>EDIT</a>
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+ <!--<script type="text/javascript">
+    document.title='Simple DataTable';
+ </script>-->
+
+{% endblock %}

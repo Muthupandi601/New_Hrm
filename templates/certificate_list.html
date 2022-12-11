@@ -1,0 +1,73 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+ {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                 {{ request.session.New_Client_Req }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }} <br> {{ session_client_code }}
+                </div>
+             {% endif %}
+        {% endblock %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+									<div class="box-header with-border">
+									  <p align="right">
+                                          <a href="{% url 'Employee_Certificate' %}">
+                                              <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add</button>
+                                          </a>
+									  </p>
+									</div>
+									<div class="box-body">
+										<div class="table-responsive">
+										  <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+											<thead>
+												<tr class="text-dark">
+													<th>CODE</th>
+													<th>NAME</th>
+													<th>DESIGNATION</th>
+													<th>CERTIFICATE TYPE</th>
+													<th>ADD DATE</th>
+													<th>ACTION</th>
+												</tr>
+											</thead>
+											<tbody>
+                                            {%for details in data %}
+                                             <tr>
+												 <td>{{details.EMP_CODE }}</td>
+                                                 <td>{{details.EMP_NAME }}</td>
+                                                 <td>{{details.DESIGNATION }}</td>
+                                                 <td>{{details.CERTIFICATE_TYPE }}</td>
+                                                 <td>{{details.ADD_DATE }}</td>
+                                                 <td>
+													 <a href="{% url 'Edit_Certificate' %}?secure={{details.EMP_CODE }}~{{details.CERTIFICATE_TYPE }}" ><i class="fas fa-edit"></i>EDIT</a>
+												 </td>
+                                             </tr>
+                                            {%endfor%}
+											</tbody>
+                                          </table>
+										</div>
+									</div>
+								  </div>
+								</div>
+        </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+<script>
+    window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 2000);
+</script>
+{% endblock %}

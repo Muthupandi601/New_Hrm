@@ -1,0 +1,375 @@
+{% load static %}
+
+<script>
+
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('datatable-buttons');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+        }
+</script>
+<script>
+
+</script>
+
+<script type="text/javascript">
+function showTime(){
+    var date = new Date();
+    var h = date.getHours(); // 0 - 23
+    var m = date.getMinutes(); // 0 - 59
+    var s = date.getSeconds(); // 0 - 59
+    var session = "AM";
+
+    if(h == 0){
+        h = 12;
+    }
+
+    if(h > 12){
+        h = h - 12;
+        session = "PM";
+    }
+
+    h = (h < 10) ? "0" + h : h;
+    m = (m < 10) ? "0" + m : m;
+    s = (s < 10) ? "0" + s : s;
+
+    var time = h + ":" + m + ":" + s + " " + session;
+    document.getElementById("MyClockDisplay").innerText = time;
+    document.getElementById("MyClockDisplay").textContent = time;
+
+    setTimeout(showTime, 1000);
+
+}
+
+showTime();
+</script>
+
+
+<!-- JAVASCRIPT -->
+
+<script src="{% static 'assets/libs/jquery/xlsx.full.min.js' %}"></script>
+<script src="{% static 'assets/libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+<script src="{% static 'assets/libs/parsleyjs/parsley.min.js' %}"></script>
+
+<script src="{% static 'assets/js/pages/form-validation.init.js' %}"></script></script>
+
+<script src="{% static 'assets/libs/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'assets/libs/spectrum-colorpicker2/spectrum.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+<script src="{% static 'assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js' %}"></script>
+<script src="{% static 'assets/libs/%40chenfengyuan/datepicker/datepicker.min.js' %}"></script>
+<!-- Required datatable js -->
+<script src="{% static 'assets/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'assets/libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'assets/libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+
+ <!-- Responsive examples -->
+<script src="{% static 'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+ <!-- jquery step -->
+<script src="{% static 'assets/libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+
+
+<!-- form advanced init -->
+
+<script src="{% static 'assets/js/pages/form-advanced.init.js' %}"></script>
+<script src="{% static 'assets/js/pages/form-wizard.init.js' %}"></script>
+
+<script src="{% static 'assets/js/app.js' %}"></script>
+<script src="{% static 'assets/js/pages/datatables.init.js' %}"></script>
+ <script>$(document).ready(function(){
+    $('select#selectclient').change(function () {
+        var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var client_name   = optionSelected.text();
+
+
+         data = {'client' : client_name };
+
+         $.ajax({
+             type:"GET",
+             url:'/getCountry',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+                console.log(result);
+                $("#selectcountries option").remove();
+                $("#selectcountries").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    $("#selectcountries").append('<option>'+ result[i].name +'</option>');
+                };
+              },
+        });
+    });
+    $('select#selectcountries').change(function () {
+
+         var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var country_name   = optionSelected.text();
+
+         var client_name = document.getElementById('selectclient').value;
+
+
+         data = {'country_name' : country_name,'client_name':client_name };
+
+         $.ajax({
+             type:"GET",
+             url:'/getState',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+
+                $("#selectstate option").remove();
+                $("#selectstate").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    console.log("vfsdghg"+ result[i]);
+                    $("#selectstate").append('<option>'+ result[i].name +'</option>');
+
+                };
+              },
+        });
+    });
+    $('select#selectcountries1').change(function () {
+
+         var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var country_name   = optionSelected.text();
+
+         var client_name = document.getElementById('selectclient').value;
+
+
+         data = {'country_name' : country_name,'client_name':client_name  };
+
+         $.ajax({
+             type:"GET",
+             url:'/getState1',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+
+                $("#selectstate option").remove();
+                $("#selectstate").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    console.log("vfsdghg"+ result[i]);
+                    $("#selectstate").append('<option>'+ result[i].name +'</option>');
+
+                };
+              },
+        });
+    });
+    $('select#selectstate').change(function () {
+         var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var district_name   = optionSelected.text();
+
+         var client_name = document.getElementById('selectclient').value;
+
+
+         data = {'district_name' : district_name,'client_name':client_name };
+
+         $.ajax({
+             type:"GET",
+             url:'/getCity',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+                console.log(result);
+                $("#selectcity option").remove();
+                $("#selectcity").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    $("#selectcity").append('<option>'+ result[i].name +'</option>');
+                };
+              },
+        });
+    });
+    $('select#selectcity').change(function () {
+         var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var branch_name   = optionSelected.text();
+
+         var client_name = document.getElementById('selectclient').value;
+
+
+         data = {'branch_name' : branch_name,'client_name':client_name };
+
+         $.ajax({
+             type:"GET",
+             url:'/getBranch',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+                console.log(result);
+                $("#selectbranch option").remove();
+                $("#selectbranch").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    $("#selectbranch").append('<option>'+ result[i].name +'</option>');
+                };
+              },
+        });
+    });
+    $('select#selectbranch').change(function () {
+         var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var area_name   = optionSelected.text();
+
+         var client_name = document.getElementById('selectclient').value;
+
+
+         data = {'area_name' : area_name,'client_name':client_name  };
+
+         $.ajax({
+             type:"GET",
+             url:'/getArea',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+                console.log(result);
+                $("#selectarea option").remove();
+                $("#selectarea").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    $("#selectarea").append('<option>'+ result[i].name +'</option>');
+                };
+              },
+        });
+    });
+    $('select#selectarea').change(function () {
+         var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var unit   = optionSelected.text();
+
+         var client_name = document.getElementById('selectclient').value;
+
+
+         data = {'unit' : unit ,'client_name':client_name};
+
+         $.ajax({
+             type:"GET",
+             url:'/getUnit',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+                console.log(result);
+                $("#selectunit option").remove();
+                $("#selectunit").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    $("#selectunit").append('<option>'+ result[i].name +'</option>');
+                };
+              },
+        });
+    });
+   $(document).ready( function () {
+       var emp_loans = $('#emp_loan_table').DataTable();
+
+         $(".select_all").on( "click", function(e)
+         {
+              alert();
+             if ($(this).is( ":checked" )) {
+                 window.emp_loans.rows(  ).select();
+             } else {
+                 window.emp_loans.rows(  ).deselect();
+             }
+         });
+} );
+    oTableStaticFlow = $('#select_all').DataTable({
+       "aoColumnDefs": [{
+           'bSortable': false,
+           'aTargets': [0]
+       }],
+    });
+
+    $("#check_all").click(function () {
+        var cells = oTableStaticFlow.column(0).nodes(), // Cells from 1st column
+            state = this.checked;
+
+        for (var i = 0; i < cells.length; i += 1) {
+            cells[i].querySelector("input[type='checkbox']").checked = state;
+        }
+    });
+    $(document).ready(function(){
+
+        var $select1=$('#client'),
+            $select2=$('#unit'),
+
+            $options=$select2.find('option');
+            $select1.on('change',function(){
+                $select2.html($options.filter('[name="'+this.value+'"]'));
+            }).trigger('change');
+   });
+    $(document).ready(function(){
+
+        var $select1=$('#country'),
+            $select2=$('#state'),
+
+            $options=$select2.find('option');
+            $select1.on('change',function(){
+                $select2.html($options.filter('[name="'+this.value+'"]'));
+            }).trigger('change');
+   });
+    $(document).ready(function(){
+       $("#myInput").on("keyup", function() {
+           var value = $(this).val().toLowerCase();
+           $("#myTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+           });
+       });
+    });
+    $(document).ready(function(){
+       $("#myInput1").on("keyup", function() {
+           var value = $(this).val().toLowerCase();
+           $("#myTable1 tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+           });
+       });
+    });
+    $(document).ready(function(){
+       $("#myInput2").on("keyup", function() {
+           var value = $(this).val().toLowerCase();
+           $("#myTable2 tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+           });
+       });
+    });
+
+     $('select#selectunit').change(function () {
+         var optionSelected = $(this).find("option:selected");
+         var valueSelected  = optionSelected.val();
+         var client_name   = optionSelected.text();
+
+
+         data = {'unit_name' : client_name };
+
+         $.ajax({
+             type:"GET",
+             url:'/getUser',
+             // data:JSON.stringify(data),
+             data:data,
+             success:function(result){
+                console.log(result);
+                $("#selectuserList option").remove();
+                $("#selectuserList").append('<option>'+''+'</option>');
+                for (var i = result.length - 1; i >= 0; i--) {
+                    $("#selectuserList").append('<option>'+ result[i].name +'</option>');
+                };
+              },
+        });
+    });
+});
+
+</script>

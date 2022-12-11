@@ -1,0 +1,78 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+{% load static %}
+ {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }} <br> {{ session_client_code }}
+                </div>
+             {% endif %}
+        {% endblock %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+									<div class="box-header with-border">
+
+									  <p align="right">
+                                          <a href="{% url 'New_Award' %}">
+                                              <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add</button>
+                                          </a>
+									  </p>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<div class="table-responsive">
+										  <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+											<thead>
+												<tr class="text-dark">
+													<th>CODE</th>
+													<th>NAME</th>
+													<th>DESIGNATION</th>
+													<th>AWARD CATEGORY</th>
+													<th>GIFT</th>
+													<th>AWARD MONTH</th>
+                                                    <th>CREATE AT</th>
+                                                    <th>STATUS</th>
+													<th>ACTION</th>
+												</tr>
+											</thead>
+											<tbody>
+                                            {%for details in data %}
+                                             <tr>
+												 <td>{{details.EMP_CODE }}</td>
+                                                 <td>{{details.EMP_NAME }}</td>
+                                                 <td>{{details.DESIGNATION }}</td>
+                                                 <td>{{details.AWARD_CATEGORY }}</td>
+                                                 <td>{{details.GIFT }}</td>
+												 <td>{{details.AWARD_MONTH}}</td>
+                                                 <td>{{details.AWARD_ADD_DATE }}</td>
+                                                 <td>{{details.AWARD_STATUS }}</td>
+                                                 <td>
+													 <a href="{% url 'Edit_Award_List' %}?secure={{details.EMP_CODE }}~{{details.AWARD_MONTH}}~{{details.AWARD_CATEGORY }}"  title="CLICK TO EDIT AWARD DETAILS"><i class="fas fa-edit"></i>EDIT</a>
+												 </td>
+                                             </tr>
+                                            {%endfor%}
+											</tbody>
+										</table>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								  </div>
+								</div>
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+{% endblock %}

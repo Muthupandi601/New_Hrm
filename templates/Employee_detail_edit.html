@@ -1,0 +1,297 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">Employee Personal Details</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+        {% if 'UPDATE_EMP_PERSONAL_DETAILS' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.UPDATE_EMP_PERSONAL_DETAILS }}
+
+             </div>
+        {% endif %}
+
+        {% block update_messages %}
+             {% if update_messages %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ update_messages }}
+                </div>
+             {% endif %}
+        {% endblock %}
+
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-check-label">Search Employee:</label>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="search_type" id="inlineRadio1" value="emp_no" required>
+                            <label class="form-check-label" for="inlineRadio1">Emp Code.</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="search_type" id="inlineRadio2" value="emp_name" required>
+                            <label class="form-check-label" for="inlineRadio2">Employee Name.</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                           <input type="text" class="form-control" id="inlineFormInputGroupUsername" name ="emp_code" placeholder="Enter Emp Code" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-md" name="GetData" value="GetData">GetData</button>
+                    </div>
+                </form>
+                <hr>
+                <form method="post" class="custom-validation" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                     {%for details in data %}
+                     <div class="row row-cols-lg-auto g-3 align-items-center">
+
+                            <div class="mb-1 col-lg-6">
+                                <b>Employee-Code : </b> <label> &nbsp;{{details.NEW_EMP.EMP_CODE}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6">
+                                <b>Employee Name : </b> <label> &nbsp; {{details.NEW_EMP.EMP_NAME}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>Father Name : </b> <label> &nbsp; {{details.EMP_PER.FATHER_NAME}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6">
+                                <b>Unit Name : </b> <label> &nbsp; {{details.EMP_COMPANY.UNIT}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>Contact No : </b> <label> &nbsp; {{details.NEW_EMP.MOBILE_NO}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6" no select>
+                                <b>Age : </b> <label> &nbsp; {{details.NEW_EMP.AGE}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>Date Of Joining : </b> <label> &nbsp; {{details.EMP_COMPANY.DATE_OF_JOIN}}</label>
+                            </div>
+                            <div class="mb-1 col-lg-6" no select>
+                                <b>District : </b> <label> &nbsp; {{details.EMP_COMPANY.DISTRICT}}</label>
+                            </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div class="mb-1 col-lg-6">
+                                <b>STATE : </b> <label> &nbsp; {{details.EMP_COMPANY.STATE}}</label>
+                            </div>
+
+                    </div>
+                    <hr>
+                     <input  type="text" name="emp_hidden_code" value="{{details.EMP_COMPANY.EMP_CODE}}" hidden>
+                     <label class="form-check-label">Profile Photo</label>
+
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+
+                         <div  class="mb-2 col-lg-2">
+                            <img id="blah" width="150px" height="200px" src="{{MEDIA_URL}}{{details.EMP_PER.PROFILE_URL}}"  alt="upload image" />
+                         </div>
+                         <div  class="mb-2 col-lg-4">
+                            <input class="form-control" type="file" name="imgfile" onclick="" value="{{details.EMP_PER.PROFILE_URL}}" {% if details.EMP_PER.PROFILE_URL == "" %}required{% endif %}>
+                         </div>
+                    </div>
+                          <hr>
+                    <br>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <label class="form-check-label">Document Upload:</label>
+                         <input class="form-control" type="file" name="docfile" value="{{details.EMP_PER.DOCUMENT_URL}}" {% if details.EMP_PER.DOCUMENT_URL == "" %}required{% endif %}>
+                    </div><p style="color:red">{{MEDIA_URL}}{{details.EMP_PER.DOCUMENT_URL}}</p>
+                    <BR>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+
+                        <div  class="mb-2 col-lg-4">
+                            <label for="name">Blood Group</label><code>*</code>
+                            <select class="form-control select2" name="blood_group" required>
+                                    <option value="A" {% if details.EMP_PER.BLOOD_GROUP == "A" %}selected="selected"{% endif %}>A+</option>
+                                    <option value="b_passtive"{% if details.EMP_PER.BLOOD_GROUP == "b_passtive" %}selected="selected"{% endif %}>B+</option>
+                            </select>
+
+                        </div>
+                        <div  class="mb-2 col-lg-4">
+                            <label for="example-text-input" >Shoe Size</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_PER.SHOE_SIZE}}"  id="example-text-input" name="shoe_size" required>
+                            </div>
+                        </div>
+                        <div  class="mb-2 col-lg-4">
+                            <label for="example-text-input">Waist</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_PER.WAIST}}" id="example-text-input" name="waist" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <div  class="mb-2 col-lg-4">
+                            <label for="example-text-input" >Height</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_PER.HEIGHT}}" id="example-text-input" name="height" required>
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label for="example-text-input" >Weight</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_PER.WEIGHT}}"  id="example-text-input" name="weight" required>
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label for="example-text-input">chest</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_PER.CHEST}}" id="example-text-input" name="chest" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <div  class="mb-2 col-lg-4">
+                            <label for="example-text-input" >T-Shirt Size</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_PER.T_SHIRT_SIZE}}" id="example-text-input" name="t_shirt" required>
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label for="example-text-input" >Thouser Size</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_PER.THOUSER_SIZE}}" id="example-text-input" name="thouser_size" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <i class="mdi mdi-arrow-right text-primary me-1"></i>Bank Details
+                    <hr>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div  class="mb-2 col-lg-4">
+                                <label for="example-text-input" >A/c No</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" value="{{details.EMP_BANK.ACCOUNT_NO}}" id="example-text-input" name="a/c_no" required>
+                                </div>
+                            </div>
+                            <div  class="mb-2 col-lg-4">
+                                <label for="name">Bank Name</label><code>*</code>
+
+                                <select class="form-control select2" name="bank_name" required>
+                                        <option value="indian_bank" {% if details.EMP_BANK.BANK_NAME == "indian_bank" %}selected="selected"{% endif %}>INDIAN BANK</option>
+                                         <option value="hdfc" {% if details.EMP_BANK.BANK_NAME == "hdfc" %}selected="selected"{% endif %}>HDFC BANK</option>
+
+                                </select>
+                            </div>
+
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <div  class="mb-2 col-lg-4">
+                            <label for="example-text-input" >IFSC Code</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_BANK.IFSC_CODE}}"  id="example-text-input" name="ifsc_code" required>
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label for="example-text-input" >Branch Name</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_BANK.BRANCH}}" id="example-text-input" name="branch_name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                            <div  class="mb-2 col-lg-4">
+                                <label for="example-text-input" >Name In Bank PassBook</label><code>*</code>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" value="{{details.EMP_BANK.PASSBOOK_NAME}}" id="example-text-input" name="bank_passbook_name" required>
+                                </div>
+                            </div>
+                            <div  class="mb-2 col-lg-4">
+                                <label for="name">Payment Mode</label><code>*</code>
+                                <select class="form-control select2" name="payment_mode" required>
+                                    <option value="online" {% if details.EMP_BANK.PAYMENT_MODE == "online" %}selected="selected"{% endif %}>ONLINE</option>
+                                    <option value="cash"{% if details.EMP_BANK.PAYMENT_MODE == "cash" %}selected="selected"{% endif %}>CASH</option>
+                                    <option value="cheque"{% if details.EMP_BANK.PAYMENT_MODE == "cheque" %}selected="selected"{% endif %}>CHEQUE</option>
+                                </select>
+                            </div>
+
+                    </div>
+                    <br>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                                <div class="form-check mb-5">
+                                    <input class="form-check-input" type="checkbox" id="formCheck1" name="payment_mode" required checked>
+                                    <label class="form-check-label" for="formCheck1">
+                                        Form No11(PF) &nbsp;&nbsp;
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-5">
+                                  <input class="form-check-input" type="checkbox" id="formCheck2" name="full_final" required checked>
+                                    <label class="form-check-label" for="formCheck2">
+                                        Full & Final
+                                    </label>
+                                </div>
+                    </div>
+                    <i class="mdi mdi-arrow-right text-primary me-1"></i>Join Account Information
+                    <hr>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <div  class="mb-2 col-lg-4">
+                            <label for="example-text-input" >Name</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_BANK.JOIN_ACC_NAME}}"
+                                    id="example-text-input" name="join_acc_name" >
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label for="example-text-input" >Account No</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_BANK.JOIN_ACC_NAME}}"
+                                    id="example-text-input" name="join_acc_no">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-cols-lg-auto g-3 align-items-center">
+                        <div  class="mb-2 col-lg-4">
+                            <label for="example-text-input" >Bank Name</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_BANK.JOIN_ACC_BANK_NAME}}"
+                                    id="example-text-input" name="join_acc_bank_name">
+                            </div>
+                        </div>
+                        <div  class="mb-3 col-lg-4">
+                            <label for="example-text-input" >Branch Name</label><code>*</code>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{details.EMP_BANK.JOIN_ACC_BRANCH_NAME}}"
+                                    id="example-text-input" name="join_acc_branch_name">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <center>
+                        <div class="center">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light" name="GetData" value="UPDATE">
+                                UPDATE
+                            </button>
+                        </div>
+                    </center>
+                    {%endfor%}
+                </form>
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+
+    <!-- end row -->
+
+{% endblock %}

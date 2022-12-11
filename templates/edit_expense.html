@@ -1,0 +1,74 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<!-- end page title -->
+        {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">Edit Expense Add</h4></u>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-2">
+                </div>
+                <div class="col-lg-6 col-md-8 login-box">
+                    <div class="col-lg-12 login-title">
+                    </div>
+                    <div class="col-lg-12 login-form">
+                        <div class="col-lg-12 login-form">
+                            <form action="{% url 'Edit_Expense' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {%for details in data%}
+                                <div class="form-group">
+                                <input type="text" class="form-control" value="{{details.EMP_CODE}}" name="emp_code" hidden>
+                                </div>
+                                <div class="form-group">
+                                <label class="form-control-label">Expense Purpose</label>
+                                <input type="text" class="form-control" value="{{details.EXPENSE_PURPOSE}}" name="expense_purpose">
+                                </div>
+                                <div class="form-group">
+                                    <label>Expense Date</label>
+                                    <div class="input-group" id="datepicker1">
+                                        <input type="text" class="form-control" value="{{details.EXPENSE_DATE}}"
+                                            data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" name="expense_date"  data-date-autoclose="true" autocomplete="off"   required>
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div>
+                               </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Expense Amount</label>
+                                    <input type="text" class="form-control" name="expense_amount" value="{{details.EXPENSE_AMOUNT}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Remarks, if any</label>
+                                    <textarea  type="text" class="form-control" name="remark" value="{{details.REMARK}}" ></textarea>
+                                </div>
+                                <br>
+                                <div class="form-group float-end">
+                                    <button class="btn btn-primary account-btn" type="submit" name="submit">UPDATE</button>
+                                </div>
+                            </form>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2">
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

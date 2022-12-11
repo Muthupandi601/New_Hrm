@@ -1,0 +1,77 @@
+{% extends 'Base.html' %}
+{% block content %}
+<style>
+    #see{
+    float: right;
+}
+#see1{
+    float: left;
+}
+#see2{
+    float: right;
+}
+#see3{
+    float: left;
+}
+</style>
+{% load static %}
+{% for details in data %}
+    <center><h4 style="color: red">{{details.EMP_NAME}} LOAN DETAILS </h4></center>
+          <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <b>
+                                <div class="invoice-title" style="background-color: #b2adaf">
+                                    <div class="mb-4">
+                                        <img src="{% static 'assets/images/logo-dark.png' %}" alt="" height="25">
+                                    </div>
+                                      <center>
+                                    <h4  style="text-transform:capitalize;">Valiance Technology</h4>
+                                          No 57A, 19th st, Secretariat Colony, Vinayakapuram, Lakshmipuram, Chennai, Tamil Nadu 600099
+                                      </center>
+                                </div>
+                                <hr>
+                                <center>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                                <pre style="font-family:Arial Black">
+                                                    <b><h5>ID                    : {{details.EMP_CODE}}</h5></b>
+                                                    <b><h5>  Loan Name      : {{details.LOAN_NAME}}</h5></b>
+                                                    <b><h5>   Loan Amount   : {{details.LOAN_AMOUNT}}</h5></b>
+                                                    <b><h5>NO. of Instalment  : {{details.NUMBER_OF_INSTALLMENT}}</h5></b>
+                                                    <b><h5>RMNG. Instalment : {{details.REMAINING_OF_INSTALLMENT}}</h5></b>
+                                                </pre>
+                                        </div>
+                                        <div>
+                                            <hr id="see1" style="border-top: 3px dashed; width:165px">
+                                            <hr id="see" style="border-top: 3px dashed; width:200px">
+                                        </div>
+                                        <div>
+                                            <h4 id="see2">AUTHORIZE SIGNATURE</h4>
+                                            <h4 id="see3">HR SIGNATURE</h4>
+                                        </div>
+                                    </div>
+                                </center>
+                                <div class="d-print-none">
+                                    <div class="float-end">
+                                        <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1" ONCLICK="printDiv(printable_area)"><i class="fa fa-print"></i></a>
+                                    </div>
+                                </div>
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<script type="text/javascript">
+    function printDiv(printable_area)
+    {
+         var printContents = document.getElementById(printable_area).innerHTML;
+         var originalContents = document.body.innerHTML;
+         document.body.innerHTML = printContents;
+         window.print();
+         document.body.innerHTML = originalContents;
+    }
+</script>
+         {%endfor%}
+{% endblock %}

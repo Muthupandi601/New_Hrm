@@ -1,0 +1,530 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+<style>
+    .modalDialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    opacity:0;
+    -webkit-transition: opacity 100ms ease-in;
+    -moz-transition: opacity 100ms ease-in;
+    transition: opacity 100ms ease-in;
+    pointer-events: none;
+}
+.modalDialog:target {
+    opacity:1;
+    pointer-events: auto;
+}
+.modalDialog > div {
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 3px;
+    background: #fff;
+}
+.close {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f26d7d;
+    color: #fff;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 34px;
+    height: 34px;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+    padding-top: 5px;
+   -webkit-transition: -webkit-transform 1s ease-out;
+   transition: transform 1s ease-out;
+   transform-origin: center;
+   transform-style: preserve-3D;
+   ease-out;
+   transition: transform 1s ease-out;
+   transform-origin: center;
+   transform-style: preserve-3D;
+}
+.close:hover {
+   -webkit-transform: rotate(360deg);
+   transform: rotate(360deg);
+ }
+</style>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">FORM-A FORMAT OF EMPLOYEE REGISTER </h4></u>
+            </div>
+        </div>
+    </div>
+     {% if 'UPDATE_EMP_DETAILS' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.UPDATE_EMP_DETAILS }}
+             </div>
+        {% endif %}
+
+        {% block update_messages %}
+             {% if update_messages %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ update_messages }}
+                </div>
+             {% endif %}
+        {% endblock %}
+     {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+    <!-- end page title -->
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <h4  class="card-title mb-4">Search Client Wise:</h4>
+                 <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="{% url 'Employees_Management' %}" >
+                    {% csrf_token %}
+                     <div  class="mb-3 col-lg-4">
+                        <label>Client</label><code>*</code>
+                        <select class="form-control select2" name ="client"  required>
+                               <option></option>
+                                 {% for item in client %}
+                                     <option value="{{ item }}" {% if item == form.client %}selected="selected"{% endif %}> {{ item }} </option>
+                                 {% endfor %}
+                        </select>
+                    </div>
+                    <!--<div  class="mb-3 col-lg-4">
+                        <label>Unit</label><code>*</code>
+                        <select class="form-control select2" name ="unit" id="selectunit">
+                            <option></option>
+
+                        </select>
+                    </div>-->
+                    <div class="mb-3 col-lg-4">
+                        <br>
+                        <button type="submit" class="btn btn-primary" name="GetData" value="GetData">Get List</button>
+                    </div>
+
+                </form>
+            <!--<a href="{% url 'export_data' %}">Export Data</a>-->
+           <!-- <a href="{% url 'export_users_xls' %}">Export all users</a>-->
+                <div id="filter_wise" class="modalDialog">
+                    <div>
+                        {% block form_a_filter %}
+                        {% if form_a_filter %}
+                        <a href="{% url 'Filter_Employees' %}?client={{form_a_filter}}" title="Close" class="close">X</a>
+                        {% else %}
+                        <a href="{% url 'Employees_Management' %}?client={{dummy_value}}" title="Close"  class="close">X</a>
+                        {% endif %}
+                        {% endblock %}
+
+                        <center>
+                            <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f;text-align: center;">Choose Filter Wise</h4></u><br>
+                        </center>
+                        <form action="{% url 'Filter_Employees' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="text"  class="form-control"  value="{{dummy_value}}" id="selectclient" name="client_name" hidden>
+                            <div class="row">
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Country()" >Country</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="State()" >State</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="District()">District</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Branch()">Branch</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Area()">Area</button>
+                                </div>
+                                <div  class="col-md-2">
+                                    <button class="btn btn-primary btn-rounded " type="button"  onclick="Unit()">Unit</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <center>
+                                <div class="col-md-6" id="country" style="display:none">
+                                    <select class="form-control " name ="country_name"  id="selectcountries1"  autocomplete="off" required>
+                                        <option value="" selected disabled>Select Country</option>
+                                        {%for details in country_list %}
+                                        <option value="{{ details}}" > {{ details}} </option>
+                                        {%endfor%}
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="State" style="display:none">
+                                    <select class="form-control " name ="state_name" id="selectstate"  autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="district" style="display:none">
+                                    <select class="form-control " name ="district_name"  id="selectcity" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="branch" style="display:none">
+                                    <select class="form-control " name ="branch_name" id="selectbranch" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="area" style="display:none">
+                                    <select class="form-control " name ="area_name" id="selectarea" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div  class="col-md-6" id="unit" style="display:none">
+                                    <select class="form-control " name ="unit_name" id="selectunit" autocomplete="off">
+                                        <option></option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <div align="right" class="col-md-6" id="save" style="display:none">
+                                    <button class="btn btn-primary account-btn" type="submit" id="filter" name="submit" value="save" >GetList</button>
+                                </div>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+                <button onclick="ExportEmpDetails('xlsx')">Export table to excel</button>
+                {% block filter_value %}
+                {% ifequal filter_value 'yes' %}
+                <p align="right">
+                    <a href="#filter_wise">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
+                    </a>
+                </p>
+                {% endifequal %}
+                {% endblock %}
+                <hr>
+                    <b>
+                     <center>
+                         <caption>FORM EMPLOYEES MANAGEMENT</caption> <br>
+                         <caption>FORMAT OF CREDIT DETAILS OF EMPLOYEES  DETAILS</caption><br>
+                     </center>
+                    </b>
+                <form action="{% url 'Delete_Employees' %}" method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="select_all" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+                                <thead>
+                                <tr>
+                                    {% ifequal filter_value 'yes' %}
+                                    <th><input type="checkbox" id="check_all"></th>
+                                    {% endifequal %}
+                                    <th>Si.No</th>
+                                    <th>Employee Code</th>
+                                    <th>Name</th>
+                                    <th>Designation</th>
+                                    <th>Client</th>
+                                    <th>Country</th>
+                                    <th>State</th>
+                                    <th>District</th>
+                                    <th>Branch</th>
+                                    <th>Area</th>
+                                    <th>Unit</th>
+                                    <th hidden>Bio-Data Submission Date</th>
+                                    <th hidden>Category</th>
+                                    <th hidden>Issue Date</th>
+                                    <th hidden>Valid Date</th>
+                                    <th hidden>Salutation</th>
+                                    <th>Date of Join</th>
+                                    <th hidden>Name</th>
+                                    <th hidden>Designation</th>
+                                    <th hidden>Date of Birth</th>
+                                    <th hidden>Marital Status</th>
+                                    <th hidden>Gender</th>
+                                    <th hidden>Contact Number</th>
+                                    <th hidden>Age</th>
+                                    <th hidden>Experience</th>
+                                    <th hidden>Wife/Husband Name</th>
+                                    <th hidden>Father Name</th>
+                                    <th hidden>Mother Name</th>
+                                    <th hidden>Highest Education</th>
+                                    <th hidden>Birth Place</th>
+                                    <th hidden>Nationality</th>
+                                    <th hidden>Blood Group</th>
+                                    <th hidden>Shoe Size</th>
+                                    <th hidden>Waist</th>
+                                    <th hidden>Height</th>
+                                    <th hidden>Weight</th>
+                                    <th hidden>Chest</th>
+                                    <th hidden>T-Shirt Size</th>
+                                    <th hidden>Trouser Size</th>
+                                    <th hidden>PAN Number</th>
+                                    <th hidden>PF Number</th>
+                                    <th hidden>ESI Number</th>
+                                    <th hidden>Aadhar Number</th>
+                                    <th hidden>UAN Number</th>
+                                    <th hidden>ID CARD Number</th>
+                                    <th hidden>Account Number</th>
+                                    <th hidden>Bank Name</th>
+                                    <th hidden>IFSC Code</th>
+                                    <th hidden>Branch</th>
+                                    <th hidden>Payment Mode</th>
+                                    <th hidden>Passbook Name</th>
+                                    <th hidden>Join Account Number</th>
+                                    <th hidden>Join Account Bank Name</th>
+                                    <th hidden>Join Account Name</th>
+                                    <th hidden>Join Account Branch Name</th>
+                                    <th hidden>Address</th>
+                                    <th hidden>Street</th>
+                                    <th hidden>District</th>
+                                    <th hidden>PIN-Code</th>
+                                    <th hidden>Telephone</th>
+                                    <th hidden>Mobile Number</th>
+                                    <th hidden>Email Id</th>
+                                    <th hidden>Duration</th>
+                                    <th hidden>State</th>
+                                    <th hidden>Per_Address</th>
+                                    <th hidden>Per_Street</th>
+                                    <th hidden>Per_District</th>
+                                    <th hidden>Per_Duration</th>
+                                    <th hidden>Per_PIN_Code</th>
+                                    <th hidden>Per_State</th>
+                                    <th hidden>Verification Number</th>
+                                    <th hidden>Verification Date</th>
+                                    <th hidden>Criminology</th>
+                                    <th hidden>Pv Send Date</th>
+                                    <th hidden>Pv Return Date</th>
+                                    <th hidden>Name Of Police</th>
+                                    <th hidden>Identity Sign</th>
+                                    <th hidden>Pv Valid Date</th>
+                                    <th hidden>Remark</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {%for details in data %}
+                                <tr>
+                                    <td><input type="checkbox" name="checks" value="{{details.EMP_CODE }}"></td>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{details.NEW_EMP.EMP_CODE }}</td>
+                                    <td>{{details.NEW_EMP.EMP_NAME }}</td>
+                                    <td>{{details.EMP_COMPANY.DESIGNATION }}</td>
+                                    <td>{{details.EMP_COMPANY.CLIENT }}</td>
+                                    <td>{{details.EMP_COMPANY.COUNTRY }}</td>
+                                    <td>{{details.EMP_COMPANY.STATE }}</td>
+                                    <td>{{details.EMP_COMPANY.DISTRICT }}</td>
+                                    <td>{{details.EMP_COMPANY.BRANCH }}</td>
+                                    <td>{{details.EMP_COMPANY.AREA }}</td>
+                                    <td>{{details.EMP_COMPANY.UNIT }}</td>
+                                    <td hidden>{{details.EMP_COMPANY.BIO_DATE_SUB_DATE}}</td>
+                                    <td hidden>{{details.EMP_COMPANY.CATEGORY}}</td>
+                                    <td hidden>{{details.EMP_COMPANY.ISSUE_DATE}}</td>
+                                    <td hidden>{{details.EMP_COMPANY.VAILD_DATE}}</td>
+                                    <td hidden>{{details.NEW_EMP.SALUTATION}}</td>
+                                    <td>{{details.EMP_COMPANY.DATE_OF_JOIN }}</td>
+                                    <td hidden>{{details.NEW_EMP.EMP_NAME}}</td>
+                                    <td hidden>{{details.EMP_COMPANY.DESIGNATION}}</td>
+                                    <td hidden>{{details.NEW_EMP.DOB }}</td>
+                                    <td hidden>{{details.NEW_EMP.MARITAL_STATUS }}</td>
+                                    <td hidden>{{details.NEW_EMP.GENDER }}</td>
+                                    <td hidden>{{details.NEW_EMP.MOBILE_NO }}</td>
+                                    <td hidden>{{details.NEW_EMP.AGE }}</td>
+                                    <td hidden>{{details.NEW_EMP.EXPERIANCE }}</td>
+                                    <td hidden>{{details.EMP_PER.WIFE_HUSBAND_NAME }}</td>
+                                    <td hidden>{{details.EMP_PER.FATHER_NAME }}</td>
+                                    <td hidden>{{details.EMP_PER.MOTHER_NAME }}</td>
+                                    <td hidden>{{details.EMP_PER.HIGHEST_EDUCATION }}</td>
+                                    <td hidden>{{details.EMP_PER.BIRTH_PLACE }}</td>
+                                    <td hidden>{{details.EMP_PER.NATIONALITY }}</td>
+                                    <td hidden>{{details.EMP_PER.BLOOD_GROUP }}</td>
+                                    <td hidden>{{details.EMP_PER.SHOE_SIZE }}</td>
+                                    <td hidden>{{details.EMP_PER.WAIST }}</td>
+                                    <td hidden>{{details.EMP_PER.HEIGHT }}</td>
+                                    <td hidden>{{details.EMP_PER.WEIGHT }}</td>
+                                    <td hidden>{{details.EMP_PER.CHEST }}</td>
+                                    <td hidden>{{details.EMP_PER.T_SHIRT_SIZE }}</td>
+                                    <td hidden>{{details.EMP_PER.THOUSER_SIZE }}</td>
+                                    <td hidden>{{details.EMP_PER.PAN_NO }}</td>
+                                    <td hidden>{{details.EMP_PER.PF_NO }}</td>
+                                    <td hidden>{{details.EMP_PER.ESI_NO }}</td>
+                                    <td hidden>{{details.EMP_PER.AADHAR_NO }}</td>
+                                    <td hidden>{{details.EMP_PER.UAN_NO }}</td>
+                                    <td hidden>{{details.EMP_PER.ID_CARD_NO }}</td>
+                                    <td hidden>{{details.EMP_BANK.ACCOUNT_NO }}</td>
+                                    <td hidden>{{details.EMP_BANK.BANK_NAME }}</td>
+                                    <td hidden>{{details.EMP_BANK.IFSC_CODE }}</td>
+                                    <td hidden>{{details.EMP_BANK.BRANCH }}</td>
+                                    <td hidden>{{details.EMP_BANK.PAYMENT_MODE }}</td>
+                                    <td hidden>{{details.EMP_BANK.PASSBOOK_NAME }}</td>
+                                    <td hidden>{{details.EMP_BANK.JOIN_ACC_NO }}</td>
+                                    <td hidden>{{details.EMP_BANK.JOIN_ACC_BANK_NAME }}</td>
+                                    <td hidden>{{details.EMP_BANK.JOIN_ACC_NAME }}</td>
+                                    <td hidden>{{details.EMP_BANK.JOIN_ACC_BRANCH_NAME }}</td>
+                                    <td hidden>{{details.EMP_COMM.ADDRESS }}</td>
+                                    <td hidden>{{details.EMP_COMM.STREET }}</td>
+                                    <td hidden>{{details.EMP_COMM.DISTRICT }}</td>
+                                    <td hidden>{{details.EMP_COMM.PINCODE }}</td>
+                                    <td hidden>{{details.EMP_COMM.TELEPHONE }}</td>
+                                    <td hidden>{{details.EMP_COMM.MOBILE_NO }}</td>
+                                    <td hidden>{{details.EMP_COMM.EMAIL_ID}}</td>
+                                    <td hidden>{{details.EMP_COMM.DURATION}}</td>
+                                    <td hidden>{{details.EMP_COMM.STATE}}</td>
+                                    <td hidden>{{details.EMP_COMM.PER_ADDRESS}}</td>
+                                    <td hidden>{{details.EMP_COMM.PER_STREET}}</td>
+                                    <td hidden>{{details.EMP_COMM.PER_DISTRICT}}</td>
+                                    <td hidden>{{details.EMP_COMM.PER_DURATION}}</td>
+                                    <td hidden>{{details.EMP_COMM.PER_PINCODE}}</td>
+                                    <td hidden>{{details.EMP_COMM.PER_STATE}}</td>
+                                    <td hidden>{{details.VERFICATION_NO}}</td>
+                                    <td hidden>{{details.VERFICATION_DATE}}</td>
+                                    <td hidden>{{details.CRIMINOLOGY}}</td>
+                                    <td hidden>{{details.PV_SEND_DATE}}</td>
+                                    <td hidden>{{details.PV_RETURN_DATE}}</td>
+                                    <td hidden>{{details.NAME_OF_POLICE_THANA}}</td>
+                                    <td hidden>{{details.IDENTITY_SIGN}}</td>
+                                    <td hidden>{{details.PV_VALID_UPTO}}</td>
+                                    <td hidden>{{details.REMARK_BY_THANA}}</td>
+                                    <td>
+                                        <a href="{% url 'Edit_Employees' %}?emp_code={{details.NEW_EMP.EMP_CODE }}"><i class="fas fa-edit"></i>EDIT</a>
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                    {% ifequal filter_value 'yes' %}
+                    <p align="left">
+                            <button type="submit" name="submit" value="Delete" class="btn btn-primary" ><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                    </p>
+                    {% endifequal %}
+                </form>
+            </div>
+        </div>
+     </div>
+<script>
+function Country()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "none";
+  document.getElementById("district").style.display = "none";
+  document.getElementById("branch").style.display = "none";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Country";
+  document.getElementById("selectstate").required = false;
+  document.getElementById("selectcity").required = false;
+  document.getElementById("selectbranch").required = false;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+ function State()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "none";
+  document.getElementById("branch").style.display = "none";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "State";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = false;
+  document.getElementById("selectbranch").required = false;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+ function District()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "none";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "District";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = false;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+function Branch()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "block";
+  document.getElementById("area").style.display = "none";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Branch";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = true;
+  document.getElementById("selectarea").required = false;
+  document.getElementById("selectunit").required = false;
+}
+function Area()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "block";
+  document.getElementById("area").style.display = "block";
+  document.getElementById("unit").style.display = "none";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Area";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = true;
+  document.getElementById("selectarea").required = true;
+  document.getElementById("selectunit").required = false;
+}
+function Unit()
+{
+  document.getElementById("country").style.display = "block";
+  document.getElementById("State").style.display = "block";
+  document.getElementById("district").style.display = "block";
+  document.getElementById("branch").style.display = "block";
+  document.getElementById("area").style.display = "block";
+  document.getElementById("unit").style.display = "block";
+  document.getElementById("save").style.display = "block";
+  document.getElementById("filter").value = "Unit";
+  document.getElementById("selectstate").required = true;
+  document.getElementById("selectcity").required = true;
+  document.getElementById("selectbranch").required = true;
+  document.getElementById("selectarea").required = true;
+  document.getElementById("selectunit").required = true;
+}
+</script>
+<script>
+    function ExportEmpDetails(type, fn, dl) {
+            var elt = document.getElementById('select_all');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('Employer Details.' + (type || 'xlsx')));
+        }
+</script>
+{% endblock %}

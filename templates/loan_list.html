@@ -1,0 +1,86 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+{% load static %}
+ {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }} <br> {{ session_client_code }}
+                </div>
+             {% endif %}
+        {% endblock %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+									<div class="box-header with-border">
+
+									  <p align="right">
+                                          <a href="{% url 'Add_Loan' %}">
+                                              <button type="button" class="btn btn-primary" data-bs-toggle="modal"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+                                          </a>
+									  </p>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<div class="table-responsive">
+										  <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+											<thead>
+												<tr class="text-dark">
+													<th>CODE</th>
+													<th>NAME</th>
+													<th>DESIGNATION</th>
+													<th>LOAN NAME</th>
+													<th>LOAN AMOUNT</th>
+													<th>NOUMBER OF INST.</th>
+                          <th>REMAINING OF INST.</th>
+                          <th>AMOUNT OF INST.</th>
+                          <th>DATE ADDED</th>
+													<th>ACTION</th>
+												</tr>
+											</thead>
+											<tbody>
+                        {%for details in data %}
+                        <tr>
+												  <td>{{details.EMP_CODE }}</td>
+                          <td>{{details.EMP_NAME }}</td>
+                          <td>{{details.DESIGNATION }}</td>
+                          <td>{{details.LOAN_NAME }}</td>
+                          <td>{{details.LOAN_AMOUNT }}</td>
+												 <td>{{details.NUMBER_OF_INSTALLMENT}}</td>
+                          <td>{{details.REMAINING_OF_INSTALLMENT }}</td>
+                          <td>{{details.AMOUNT_OF_INSTALLMENT }}</td>
+                          <td>{{details.LOAN_ADDED_DATE }}</td>
+                          <td>
+													 <a href="{% url 'Edit_Loan' %}?secure={{details.EMP_CODE }}"  title="CLICK TO EDIT LOAN DETAILS"><i class="fas fa-edit"></i>EDIT</a>
+                                                     <a href="{% url 'View_Loan' %}?secure={{details.EMP_CODE }}" target="_blank" title="CLICK TO PRINT LOAN SLIP"><i class="fas fa-pencil-alt"></i>VIEW</a>
+
+												 </td>
+
+                                             </tr>   {%endfor%}
+
+
+											</tbody>
+										</table>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								  </div>
+								</div>
+            </div>
+
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+
+{% endblock %}

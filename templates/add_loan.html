@@ -1,0 +1,73 @@
+{% extends 'Base.html' %}
+{% block content %}
+
+<!-- end page title -->
+        {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+<div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">New Loan Add</h4></u>
+             </div>
+        </div>
+</div>
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-2">
+
+                </div>
+                <div class="col-lg-6 col-md-8 login-box">
+                    <div class="col-lg-12 login-title">
+
+                    </div>
+                    <div class="col-lg-12 login-form">
+                        <div class="col-lg-12 login-form">
+                            <form action="{% url 'Add_Loan' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                <label class="form-control-label">Employer Code</label>
+                                <input type="text" class="form-control" placeholder="Enter Code..." name="emp_code" required>
+                                </div>
+                                <div class="form-group">
+                                <label class="form-control-label">Loan Name</label>
+                                <input type="text" class="form-control" placeholder="Enter Loan Name..." name="loan_name" required>
+                                </div>
+                                <div class="form-group">
+                                <label class="form-control-label">Loan Amount</label>
+                                <input type="text" class="form-control" placeholder="Enter Loan Amount..." name="loan_amount" required>
+                                </div>
+                                <div class="form-group">
+                                <label class="form-control-label">Number of Installment</label>
+                                <input type="text" class="form-control" placeholder="Enter Number of Installment..." name="no_of_inst" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Amount of Installment</label>
+                                    <input type="text" class="form-control" name="amount_of_inst" placeholder="Enter Amount of Installment....." required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Loan Description</label>
+                                    <textarea  type="text" class="form-control" name="loan_description" placeholder="Enter Loan Description....." ></textarea>
+                                </div>
+                                <br>
+                                <div class="form-group float-end">
+                                        <button class="btn btn-primary account-btn" type="submit" name="submit" >Add Loan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-2">
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

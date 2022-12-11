@@ -1,0 +1,70 @@
+{% extends 'Base.html' %}
+{% block content %}
+   <!-- start page title -->
+{% load static %}
+ {% if 'New_Client_Req' in request.session  %}
+             <div class="alert alert-danger" role="alert">
+                {{ request.session.New_Client_Req }}
+                <br>
+                {{ request.session.New_Client_Code }}
+             </div>
+        {% endif %}
+
+        {% block session_client_name %}
+             {% if session_client_name %}
+                 <div class="alert alert-danger" role="alert">
+                     {{ session_client_name }} <br> {{ session_client_code }}
+                </div>
+             {% endif %}
+        {% endblock %}
+<div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+									<!-- /.box-header -->
+									<div class="box-body">
+										<div class="table-responsive">
+										  <table id="datatable-buttons" class="table text-fade table-bordered table-hover display nowrap margin-top-10 w-p100">
+											<thead>
+												<tr class="text-dark">
+													<th>CODE</th>
+													<th>NAME</th>
+													<th>DESIGNATION</th>
+													<th>IN TIME</th>
+                                                    <th>OUT TIME</th>
+													<th>LEAVE GATEGORY</th>
+                                                    <th>LAST UPDATE DATE</th>
+													<th>ACTION</th>
+												</tr>
+											</thead>
+											<tbody>
+                                            {%for details in data %}
+                                             <tr>
+												 <td><a href="{% url 'DailY_Attendance_List' %}?secure={{details.EMP_CODE }} ">{{details.EMP_CODE }}</a></td>
+                                                 <td>{{details.EMP_NAME }}</td>
+                                                 <td>{{details.DESIGNATION }}</td>
+                                                 <td>{{details.IN_TIME}}</td>
+                                                 <td>{{details.OUT_TIME}}</td>
+												 <td>{{details.ATTENDANCE_STATUS}}</td>
+                                                 <td>{{details.LAST_UPDATE_DATE }}</td>
+                                                 <td>
+													<a href="{% url 'Update_Daily_Attendance' %}?secure={{details.EMP_CODE }}" title="CLICK TO UPDATE DAILY ATTENDANCE"><i class="fas fa-edit"></i>UPDATE</a>
+												 </td>
+                                             </tr>
+                                            {%endfor%}
+											</tbody>
+										</table>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								  </div>
+								</div>
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+ <!--<script type="text/javascript">
+    document.title='Simple DataTable';
+ </script>-->
+{% endblock %}

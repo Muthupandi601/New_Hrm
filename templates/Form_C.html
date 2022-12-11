@@ -1,0 +1,117 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+   <!-- start page title -->
+    {% load static %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <u><h4 class="mb-sm-0 font-size-18" style="color: #d20f0f">FORM C FORMAT OF REGISTER OF LOAN/RECOVERIES </h4></u>
+            </div>
+        </div>
+    </div>
+
+     {% block error %}
+             {% if error %}
+                 <center>
+                 <div class="alert alert-danger" role="alert">
+                     {{ error }}
+                </div>
+                 </center>
+             {% endif %}
+        {% endblock %}
+    <!-- end page title -->
+     <div class="row">
+        <div class="card">
+            <div class="card-body">
+              <h4  class="card-title mb-4">Search Client Wise:</h4>
+                 <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" >
+                    {% csrf_token %}
+                     <div  class="mb-3 col-lg-4">
+                        <label>Client</label><code>*</code>
+                        <select class="form-control select2" name ="client" id="selectclient" required>
+                               <option></option>
+                                 {% for item in client %}
+                                     <option val="{{ item.Client_Name }}" {% if item.Client_Name == form.client %}selected="selected"{% endif %}> {{ item.Client_Name }} </option>
+                                 {% endfor %}
+                        </select>
+                    </div>
+                    <div  class="mb-3 col-lg-4">
+                        <label>Unit</label><code>*</code>
+                        <select class="form-control select2" name ="unit" id="selectunit" required>
+                            <option></option>
+
+                        </select>
+                    </div>
+                   <div class="mb-3 col-lg-4" >
+                        <button type="submit" class="btn btn-primary" name="GetData" value="GetData">Get List</button>
+                    </div>
+
+                </form>
+            <!--<a href="{% url 'export_data' %}">Export Data</a>-->
+           <!-- <a href="{% url 'export_users_xls' %}">Export all users</a>-->
+            <button onclick="ExportToExcel('xlsx')">Export table to excel</button>
+                <hr>
+                    <b>
+                     <center>
+
+                         <caption>FORM C</caption> <br>
+                         <caption>FORMAT OF REGISTER OF LOAN/RECOVERIES</caption> <br>
+
+                     </center>
+                    </b>
+               <table id="datatable-buttons" class="table table-bordered dt-responsive nowrap w-100">
+                   <thead>
+                    <tr>
+                        <th>Si.No</th>
+                        <th>Name</th>
+                        <th>Recovery Type</th>
+                        <th>Particulars</th>
+                        <th>Date of Damage/Loss*</th>
+                        <th>Amount</th>
+                        <th>Whether Show cause issued*</th>
+                        <th>Explanation heard in presence of*</th>
+                        <th>Number of Installments</th>
+                        <th>First Month/Year</th>
+                        <th>Last Month/Year</th>
+                        <th>Date of Complete Recovery</th>
+                        <th>Remarks</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+
+                    {%for details in data %}
+
+                    <tr>
+                       <td>{{ details.ID }}</td>
+                        <td>{{ details.EMP_NAME }}</td>
+                        <td>{{ details.LOAN_TYPE }}</td>
+                        <td></td>
+                        <td>{{ details.APPLY_DATE }}</td>
+                        <td>{{ details.LOAN_AMOUNT }}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ details.NO_OF_INSTALLMENT }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+
+
+                   </tr>
+
+                    {%endfor%}
+                   </tbody>
+                </table>
+
+               <!-- end card body -->
+
+        <!-- end card -->
+     </div>
+    </div>
+    </div>
+{% endblock %}
